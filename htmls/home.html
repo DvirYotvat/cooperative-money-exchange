@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html dir="ltr">
+<head>
+    <!-- Metas -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="LionCoders" />
+    <!-- Links -->
+    <link rel="icon" type="image/png" href="#" />
+    <!-- google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link href="../css/plugin.css" rel="stylesheet" />
+    <!-- style CSS -->
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- Document Title -->
+    <title>Cooperative currency exchange - home</title>
+</head>
+
+<body>
+    <!--Preloader starts-->
+     <!-- <div class="preloader js-preloader">
+        <img src="../images/preloader.gif" alt="...">
+    </div> -->
+    <!--Preloader ends-->
+    <!--Page Wrapper starts-->
+    <div class="page-wrapper fixed-footer">
+        <!--header starts-->
+        <header class="header transparent scroll-hide">
+            <!--Main Menu starts-->
+            <div class="site-navbar-wrap v2">
+                <div class="container">
+                    <div class="site-navbar">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 col-6">
+                                <a class="navbar-brand" href="#"><img src="images/logo-black.png" alt="logo" class="img-fluid"></a>
+                            </div>
+                            <div class="col-md-8 col-6">
+                                <nav class="site-navigation float-left">
+                                    <div class="container">
+                                        <ul class="site-menu">
+                                            <li class="has-children">
+                                                <a href="#">User Panel</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="profile.html">User Profile</a></li>
+                                                    <li><a href="listing.html">My Listings</a></li>
+                                                    <li><a href="messages.html">Inbox</a></li>
+                                                    <li><a href="add-listing.html">Add Listing</a></li>
+                                                    <li><a href="../index.html">Login</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div class="d-lg-none sm-right">
+                                    <a href="#" class="mobile-bar js-menu-toggle">
+                                        <span class="ion-android-menu"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--mobile-menu starts -->
+                    <div class="site-mobile-menu">
+                        <div class="site-mobile-menu-header">
+                            <div class="site-mobile-menu-close  js-menu-toggle">
+                                <span class="ion-ios-close-empty"></span>
+                            </div>
+                        </div>
+                        <div class="site-mobile-menu-body"></div>
+                    </div>
+                    <!--mobile-menu ends-->
+                </div>
+            </div>
+            <!--Main Menu ends-->
+        </header>
+        <!--Header ends-->
+        <!--fullwidth Map starts-->
+        <div class="contact-map v2  map-full">
+            <div class="container-fluid no-pad-lr">
+                <div class="row">
+                    <div class="col-md-12 no-padding">
+                        <div id="map_right_listing"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-wrapper style1 v2" dir="rtl">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="hero__form v2 filter mar-bot-30">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-12">
+                                        <select class="hero__form-input  custom-select" id="from-coin">
+                                            <option>ממטבע..</option>
+                                            <option>שקל</option>
+                                            <option>דולר</option>
+                                            <option>אירו</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-lg-3 col-md-12">
+                                        <select class="hero__form-input  custom-select" id="to-coin">
+                                            <option>למטבע..</option>
+                                            <option>שקל</option>
+                                            <option>דולר</option>
+                                            <option>אירו</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-md-12">
+                                        <select class="hero__form-input  custom-select" id="search-radius">
+                                            <option>קילומטר</option>
+                                            <option>2 קילומטר</option>
+                                            <option>3 קילומטר</option>
+                                            <option>4 קילומטר</option>
+                                            <option>5 קילומטר</option>
+                                            <option>6 קילומטר</option>
+                                            <option>7 קילומטר</option>
+                                            <option>8 קילומטר</option>
+                                            <option>9 קילומטר</option>
+                                            <option>10 קילומטר</option>
+                                            <option>כל הארץ</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2 col-md-12">
+                                        <div class="submit_btn text-right md-left">
+                                            <button class="btn v3  mar-right-5" type="submit"><i class="ion-ios-search" aria-hidden="true"></i> Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--fullwidth Map ends-->
+    </div>
+    <!--Page Wrapper ends-->
+    <!--Scripts starts-->
+    <!--plugin js-->
+    <script src="js/plugin.js"></script>
+    <!--google maps-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_8C7p0Ws2gUu7wo0b6pK9Qu7LuzX2iWY&amp;libraries=places&amp;callback=initAutocomplete"></script>
+    <!--Maps js-->
+    <script src="../js/maps.js"></script>
+    <!--Main js-->
+    <script src="../js/main.js"></script>
+    <!--Scripts ends-->
+</body>
+
+</html>
