@@ -348,6 +348,7 @@
     opacity: 1;
 }
 
+
 /*-----------------------------------------------------------
                     Menu mobile
 -------------------------------------------------------------*/
@@ -372,52 +373,6 @@
 /*-----------------------------------------------------------
                 Buttons & Links
 -------------------------------------------------------------*/
-.link-hov.style1 {
-    color: #fff;
-    transition: 0.5s;
-    position: relative;
-    font-size: 14px;
-    font-weight: 400;
-}
-
-.link-hov.style1:before {
-    position: absolute;
-    top: 105%;
-    left: 0;
-    width: 0%;
-    height: 1px;
-    content: "";
-    background: #fff;
-    visibility: hidden;
-    opacity: 0;
-    transition: 0.4s;
-
-}
-
-.link-hov.style1:hover {
-    color: #fff;
-}
-
-.link-hov.style1:hover:before {
-    visibility: visible;
-    width: 100%;
-    opacity: 1;
-
-}
-
-.link-hov.style1.text-white:before {
-
-    background: #fff;
-
-
-}
-
-.link-hov.style1.text-white:hover:before {
-    visibility: visible;
-    width: 100%;
-    opacity: 1;
-
-}
 
 .link-hov.style2 {
     color: #555;
@@ -453,39 +408,6 @@
 
 }
 
-.link-hov.style3 {
-    color: #777;
-    transition: 0.5s;
-    position: relative;
-    font-size: 15px;
-}
-
-.link-hov.style3:before {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    content: "";
-    background: #fff;
-    visibility: hidden;
-    opacity: 0;
-    transition: 0.4s;
-
-}
-
-.link-hov.style3:hover {
-    color: #141414;
-}
-
-.link-hov.style3:hover:before {
-    visibility: visible;
-    width: 100%;
-    opacity: 1;
-
-}
-
-
 .round-bg {
     width: 30px;
     height: 30px;
@@ -518,33 +440,6 @@
 
 }
 
-.slider-btn.v1 {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    text-align: center;
-    border: 2px solid rgba(168, 163, 163, 0.71);
-    cursor: pointer;
-    transition: 0.4s;
-}
-
-.slider-btn.v1 i {
-    line-height: 33px;
-    font-size: 16px;
-    color: rgba(168, 163, 163, 0.9);
-    transition: 0.4s;
-}
-
-.slider-btn.v1:hover {
-    /*    background: #0cbcb7;*/
-    color: #fff;
-    border-color: transparent;
-}
-
-.slider-btn.v1:hover i {
-    color: #fff;
-}
-
 .slider-btn.v2 {
     width: 30px;
     height: 30px;
@@ -571,65 +466,8 @@
     color: #fff;
 }
 
-.slider-btn.v3 {
-    width: 35px;
-    height: 35px;
-    border: 1px solid transparent;
-    display: inline-block;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 35px;
-    cursor: pointer;
-    background: #0cbcb7;
-}
-
-.slider-btn.v3 i {
-    font-size: 20px;
-    color: #fff;
-    font-weight: 600;
-}
-
-.slider-btn.v4 {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    text-align: center;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: 0.4s;
-    background: #0cbcb7;
-}
-
-.slider-btn.v4 i {
-    line-height: 35px;
-    font-size: 18px;
-    color: #fff;
-}
-
-.btn.v1 {
-    background: #0cbcb7;
-    padding: 9px 30px;
-    border-radius: 50px;
-    border: 1px solid transparent;
-    color: #fff !important;
-    transition: 0.3s;
-    line-height: 1.1;
-    font-size: 15px;
-}
-
 .btn:focus {
     box-shadow: none !important;
-}
-
-.btn.v1 i {
-    margin-left: 5px;
-}
-
-.btn.v1:hover {
-    background: #fff;
-    color: #333 !important;
-    border: 1px solid #ddd;
-
 }
 
 .btn.v2 {
@@ -653,180 +491,4 @@
     background: transparent;
     color: #BDC1CA !important;
     border: 1px solid #BDC1CA;
-
-}
-
-.btn.v3 {
-    background: #0cbcb7;
-    padding: 9px 20px;
-    border-radius: 50px;
-    border: 1px solid transparent;
-    color: #fff !important;
-    transition: 0.3s;
-    display: inline-block;
-    font-size: 15px;
-    font-weight: 500;
-}
-
-.btn.v3 i {
-    margin-right: 8px;
-}
-
-.btn.v3:hover {
-    background: #fff;
-    color: #333 !important;
-    border: 1px solid #ddd;
-
-}
-
-.btn.v3.white {
-    background: #fff !important;
-    color: #0cbcb7 !important;
-}
-
-.btn.v3.white:hover {
-    background: #0cbcb7 !important;
-    color: #fff !important;
-    border-color: transparent;
-
-}
-
-.btn.v4 {
-    background: #0cbcb7;
-    padding: 9px 30px;
-    border-radius: 50px;
-    border: 1px solid transparent;
-    color: #fff !important;
-    transition: 0.3s;
-    line-height: 1.1;
-    font-size: 15px;
-
-}
-
-.btn.v4:hover {
-    background: #fff;
-    color: #333 !important;
-    border: 1px solid #ddd;
-
-}
-
-.btn.v5 {
-
-    color: #fff;
-    border: 1px solid transparent;
-    padding: 9px 15px;
-    border-radius: 50px;
-    font-size: 14px;
-    transition: 0.5s;
-    background: #1CBBB4;
-    line-height: 1;
-
-
-}
-
-.btn.v5 i {
-    margin-right: 7px;
-}
-
-.btn.v5:hover {
-    background: transparent;
-    color: #999;
-    border: 1px solid #ddd;
-
-}
-
-.btn.v6 {
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    padding: 7px 15px;
-    border-radius: 50px;
-    font-size: 11px;
-    letter-spacing: 2px;
-    transition: 0.5s;
-    text-transform: uppercase;
-    line-height: 1.2;
-    background: transparent;
-}
-
-.btn.v6:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 1px solid transparent;
-
-}
-
-.btn.v6.red {
-    color: #fff !important;
-    background: #0cbcb7;
-    border: 1px solid transparent;
-}
-
-.btn.v6.red:hover {
-    color: #6c6c6c !important;
-    background: #fff;
-}
-
-.btn.v6.dark {
-    color: #6c6c6c !important;
-    border: 1px solid #ddd;
-}
-
-.btn.v6.dark:hover {
-    background: #f9f9f9;
-}
-
-.btn.v7 {
-    background: #0cbcb7;
-    color: #fff;
-    padding: 11px 20px;
-    border: 1px solid transparent;
-    transition: 0.5s;
-    border-radius: 50px;
-}
-
-.btn.v7:hover {
-    background: transparent;
-    color: #333;
-    border: 1px solid #ddd;
-
-}
-
-.btn.v8 {
-    background: #0cbcb7;
-    padding: 9px 20px;
-    border-radius: 50px;
-    border: 1px solid transparent;
-    color: #fff !important;
-    transition: 0.3s;
-    display: inline-block;
-    font-size: 15px;
-    font-weight: 500 !important;
-}
-
-.btn.v8:hover {
-    background: #fff;
-    color: #333 !important;
-
-}
-
-.btn.v8 i {
-    margin-left: 5px;
-}
-
-.btn.v9 {
-    background: transparent;
-    padding: 15px 25px;
-    border-radius: 50px;
-    border: 1px solid #fff;
-    color: #fff !important;
-    transition: 0.3s;
-    line-height: 1.1;
-    font-size: 15px;
-}
-
-.btn.v9:hover {
-    background: #fff;
-    color: #333 !important;
-    border: 1px solid #ddd;
-
 }
