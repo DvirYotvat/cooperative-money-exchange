@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html dir="ltr">
 
 <head>
     <!-- Metas -->
@@ -16,20 +16,14 @@
     <link href="../css/style.css" rel="stylesheet" />
     <!-- Dashboard CSS -->
     <link href="../css/dashboard.css" rel="stylesheet" />
-    <!--color switcher css-->
-    <link rel="stylesheet" href="css/switcher/skin-aqua.css" media="screen" id="style-colors" />
     <!-- Document Title -->
-    <title>Cooperative currency exchange - my profile</title>
-
+    <title>Cooperative currency exchange - edit-profile</title>
 </head>
 
 <body>
     <div class="page-wrapper">
-
         <!--Dashboard content Wrapper starts-->
         <div class="dash-content-wrap">
-
-            <!-- Top header starts-->
             <header class="db-top-header">
                 <div class="container-fluid">
                     <div class="row align-items-center">
@@ -89,7 +83,6 @@
                 </div>
             </header>
             <!-- Top header ends-->
-
             <!--Dashboard breadcrumb starts-->
             <div class="dash-breadcrumb">
                 <div class="container-fluid">
@@ -109,48 +102,92 @@
             <div class="dash-content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-10 offset-md-1">
-                            <div class="recent-activity">
+                        <div class="col-md-12">
+                            <div class="db-add-list-wrap">
                                 <div class="act-title">
-                                    <h5><i class="ion-person"></i>Profile Details</h5>
+                                    <h5><i class="ion-person"></i> Profile Details :</h5>
                                 </div>
-                                <div class="profile-wrap">
+                                <div class="db-add-listing">
                                     <div class="row">
-                                        <div class="col-md-8 offset-md-2 py-4">
-                                            <div class="edit-profile-photo text-center">
+                                        <div class="col-md-4 offset-md-4">
+                                            <!-- Avatar -->
+                                            <div class="edit-profile-photo">
                                                 <img src="images" alt="">
+                                                <div class="change-photo-btn">
+                                                    <div class="contact-form__upload-btn xs-left">
+                                                        <input class="contact-form__input-file" type="file" name="photo-upload" id="photo-upload">
+                                                        <span>
+                                                            <i class="icofont-upload-alt"></i>
+                                                            Upload Photos
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <div class="my-profile">
-                                                <ul class="db-profile-info">
-                                                    <li>
-                                                        <h6>First Name :</h6>
-                                                        <span>User1</span>
-                                                    </li>
-                                                    <li>
-                                                        <h6>Last Name :</h6>
-                                                        <span> User1</span>
-                                                    </li>
-                                                    <li>
-                                                        <h6>Email Id :</h6>
-                                                        <span>User1@mail.com</span>
-                                                    </li>
-                                                    <li>
-                                                        <h6>Phone :</h6>
-                                                        <span>123456789</span>
-                                                    </li>
-                                                    <li>
-                                                        <h6>Password :</h6>
-                                                        <span>123456</span>
-                                                    </li>
-                                                    <li>
-                                                        <h6>Address :</h6>
-                                                        <span>User1</span>
-                                                    </li>
-                                                </ul>
-                                                <a href="edit-profile.html" class="btn v5">Edit profile</a>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>First name</label>
+                                                        <input type="text" class="form-control filter-input" placeholder="User">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Last name</label>
+                                                        <input type="text" class="form-control filter-input" placeholder="User">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Email id</label>
+                                                        <input type="text" class="form-control filter-input" placeholder="user@mail.com">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Phone</label>
+                                                        <input type="text" class="form-control filter-input" placeholder="+972 111111111">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <a href="#" class="btn v5">Save Changes</a>
+                                                </div>
                                             </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="db-add-list-wrap">
+                                <div class="act-title">
+                                    <h5><i class="ion-person"></i>Change Password :</h5>
+                                </div>
+                                <div class="db-add-listing">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Old Password</label>
+                                                <input type="password" class="form-control filter-input">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>New Password</label>
+                                                <input type="password" class="form-control filter-input">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Confirm new Password</label>
+                                                <input type="password" class="form-control filter-input">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a href="#" class="btn v5">Change Password</a>
                                         </div>
                                     </div>
                                 </div>
@@ -160,6 +197,7 @@
                 </div>
             </div>
             <!--Dashboard content ends-->
+
             <!--Dashboard footer starts-->
             <div class="dash-footer">
                 <div class="container">
@@ -175,6 +213,7 @@
             <!--Dashboard footer ends-->
         </div>
         <!--Dashboard content Wrapper ends-->
+
     </div>
     <!-- Plugin JS-->
     <script src="../js/plugin.js"></script>
