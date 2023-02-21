@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
     <!-- Plugins CSS -->
     <link href="../css/plugin.css" rel="stylesheet" />
+    <!-- Perfect scrollbar CSS-->
+    <link href="../css/perfect-scrollbar.css" rel="stylesheet">
     <!-- style CSS -->
     <link href="../css/style.css" rel="stylesheet" />
     <!-- Dashboard CSS -->
@@ -19,7 +21,7 @@
     <!--color switcher css-->
     <link rel="stylesheet" href="css/switcher/skin-aqua.css" media="screen" id="style-colors" />
     <!-- Document Title -->
-    <title>Cooperative currency exchange - my profile</title>
+    <title>CCE - my profile</title>
 
 </head>
 
@@ -28,8 +30,48 @@
     <div class="preloader js-preloader">
         <img src="../images/preloader.gif" alt="...">
     </div>
-    <!--Preloader ends-->
     <div class="page-wrapper">
+        <!--Sidebar Menu Starts-->
+        <aside class="menu-sidebar js-right-sidebar d-block d-lg-none">
+            <div class="logo">
+                <a href="#">
+                    <img src="../images/logo.png" alt="Listagram" />
+                </a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar2">
+                <div class="account-img">
+                    <img src="../images/logo.png" alt="User" />
+                </div>
+                <h4 class="name">Hi, User!</h4>
+                <nav class="navbar-sidebar2">
+                    <ul class="list-unstyled navbar__list">
+                        <li>
+                            <a href="messages.html">
+                                <i class="ion-ios-email-outline"></i>Inbox</a>
+                            <span class="inbox-num pending">3</span>
+                        </li>
+                        <li>
+                            <a href="add-listing.html">
+                                <i class="ion-ios-plus-outline"></i>Add Listings</a>
+                        </li>
+                        <li>
+                            <a href="my-profile.html">
+                                <i class="ion-ios-person-outline"></i>My profile</a>
+                        </li>
+                        <li>
+                            <a href="edit-profile.html">
+                                <i class="ion-ios-person-outline"></i>Edit profile</a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ion-ios-upload-outline"></i>Logout</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!--Sidebar Menu ends-->
+
         <!--Dashboard content Wrapper starts-->
         <div class="dash-content-wrap">
             <!-- Top header starts-->
@@ -44,17 +86,14 @@
                                     <div class="container">
                                         <ul class="site-menu js-clone-nav d-none d-lg-block">
                                             <li class="has-children">
-                                                <a href="#">Home</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="home.html">Home</a></li>
-                                                </ul>
+                                                <li><a href="home.html">Home</a></li>
                                             </li>
                                             <li class="has-children">
                                                 <a href="#">Pages</a>
                                                 <ul class="dropdown">
                                                     <li><a href="add-listing.html">Add Listing</a></li>
+                                                    <li><a href="login.html">Login</a></li>
                                                     <li><a href="user-profile.html">User profile</a></li>
-                                                    <li><a href="../index.html">Login</a></li>
                                                 </ul>
                                             </li>
                                             <li class="has-children">
@@ -62,8 +101,6 @@
                                                 <ul class="dropdown">
                                                     <li><a href="my-listing.html">My Listings</a></li>
                                                     <li><a href="messages.html">Inbox</a></li>
-                                                    <li><a href="add-listing.html">Add Listing</a></li>
-                                                    <li><a href="recieve-reviews.html">Reviews</a></li>
                                                     <li><a href="my-profile.html">User Profile</a></li>
                                                 </ul>
                                             </li>
@@ -100,6 +137,12 @@
                         <div class="col-md-12">
                             <div class="dash-breadcrumb-content">
                                 <div class="dash-breadcrumb-left">
+                                    <div class="breadcrumb-menu text-right sm-left">
+                                        <ul>
+                                            <li class="active"><a href="home.html">Home</a></li>
+                                            <li>My Profile</li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <a class="btn v3" href="add-listing.html"><i class="ion-plus-round"></i>Add Listing </a>
                             </div>
@@ -121,7 +164,7 @@
                                     <div class="row">
                                         <div class="col-md-8 offset-md-2 py-4">
                                             <div class="edit-profile-photo text-center">
-                                                <img src="images" alt="">
+                                                <img src="images/clients/reviewer-4.png" alt="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -129,27 +172,27 @@
                                                 <ul class="db-profile-info">
                                                     <li>
                                                         <h6>First Name :</h6>
-                                                        <span>User1</span>
+                                                        <span>user </span>
                                                     </li>
                                                     <li>
                                                         <h6>Last Name :</h6>
-                                                        <span> User1</span>
+                                                        <span> user</span>
                                                     </li>
                                                     <li>
-                                                        <h6>Email Id :</h6>
-                                                        <span>User1@mail.com</span>
+                                                        <h6>Email:</h6>
+                                                        <span> user@mail.com</span>
                                                     </li>
                                                     <li>
                                                         <h6>Phone :</h6>
-                                                        <span>123456789</span>
+                                                        <span> 054-000000000</span>
                                                     </li>
                                                     <li>
                                                         <h6>Password :</h6>
                                                         <span>123456</span>
                                                     </li>
                                                     <li>
-                                                        <h6>Address :</h6>
-                                                        <span>User1</span>
+                                                        <h6>Rate :</h6>
+                                                        <span>5/5</span>
                                                     </li>
                                                 </ul>
                                                 <a href="edit-profile.html" class="btn v5">Edit profile</a>
@@ -163,26 +206,17 @@
                 </div>
             </div>
             <!--Dashboard content ends-->
-            <!--Dashboard footer starts-->
-            <div class="dash-footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="copyright">
-                                <p>© 2023 - Dvir Yotvat and Dana Brudo.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Dashboard footer ends-->
         </div>
         <!--Dashboard content Wrapper ends-->
     </div>
     <!-- Plugin JS-->
     <script src="../js/plugin.js"></script>
+    <!--Perfect Scrollbar JS-->
+    <script src="../js/perfect-scrollbar.min.js"></script>
     <!-- Main JS-->
     <script src="../js/main.js"></script>
+    <!-- Dashboard JS-->
+    <script src="../js/dashboard.js"></script>
 </body>
 
 </html>
