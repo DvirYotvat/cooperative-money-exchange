@@ -24,7 +24,7 @@
     <title>CCE - add listing</title>
 </head>
 
-<body>
+<body onload="showProfileDetails()">
     <!--Preloader starts-->
     <div class="preloader js-preloader">
         <img src="../images/preloader.gif" alt="...">
@@ -39,9 +39,9 @@
             </div>
             <div class="menu-sidebar__content js-scrollbar2">
                 <div class="account-img">
-                    <img src="../images/logo.png" alt="User" />
                 </div>
-                <h4 class="name">Hi, User!</h4>
+                <div id="hi_user">
+                </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
                         <li>
@@ -62,8 +62,8 @@
                                 <i class="ion-ios-person-outline"></i>Edit profile</a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="ion-ios-upload-outline"></i>Logout</a>
+                            <a onclick="logout()">
+                                <i class="ion-ios-upload-outline" onclick="logout()"></i>Logout</a>
                         </li>
                     </ul>
                 </nav>
@@ -71,180 +71,191 @@
         </aside>
         <!--Sidebar Menu ends-->
 
-     <!--Dashboard content Wrapper starts-->
-<div class="dash-content-wrap">
-    <!-- Top header starts-->
-    <header class="db-top-header">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-9 col-sm-6 col-4">
-                    <div class="site-navbar-wrap v2">
-                        <div class="site-navbar">
-                            <div class="row align-items-center">
-                                <nav class="site-navigation float-left">
-                            <div class="container">
-                                <ul class="site-menu js-clone-nav d-none d-lg-block">
-                                    <li class="has-children">
-                                        <li><a href="home.html">Home</a></li>
-                                    </li>
-                                    <li class="has-children">
-                                        <a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="add-listing.html">Add Listing</a></li>
-                                            <li><a href="login.html">Login</a></li>
-                                            <li><a href="user-profile.html">User profile</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="has-children">
-                                        <a href="#">User Panel</a>
-                                        <ul class="dropdown">
-                                            <li><a href="my-listing.html">My Listings</a></li>
-                                            <li><a href="messages.html">Inbox</a></li>
-                                            <li><a href="my-profile.html">User Profile</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="d-lg-none"><a class="btn v1" href="add-listing.html">Add Listing <i class="ion-plus-round"></i></a></li>
-                                </ul>
-                            </div>
-                        </nav>
-                                <div class="d-lg-none sm-right">
-                                    <a href="#" class="mobile-bar js-menu-toggle">
-                                        <span class="ion-android-menu"></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="site-mobile-menu">
-                            <div class="site-mobile-menu-header">
-                                <div class="site-mobile-menu-close  js-menu-toggle">
-                                    <span class="ion-ios-close-empty"></span>
-                                </div>
-                            </div>
-                            <div class="site-mobile-menu-body"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- Top header ends-->
-
-    <!--Dashboard breadcrumb starts-->
-    <div class="dash-breadcrumb">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="dash-breadcrumb-content">
-                        <div class="dash-breadcrumb-left">
-                            <div class="breadcrumb-menu text-right sm-left">
-                                <ul>
-                                    <li class="active"><a href="home.html">Home</a></li>
-                                    <li>add listing</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <a class="btn v3" href="add-listing.html"><i class="ion-plus-round"></i>Add Listing </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Dashboard breadcrumb ends-->
-                    <!--Add Listing starts-->
-        <div class="list-details-section section-padding add_list pad-top-90">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul class="nav nav-tabs list-details-tab">
-                            <li class="nav-item active">
-                                <a data-toggle="tab" href="#general_info">General Information</a>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="tab" href="#Pricing">Pricing</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content mar-tb-30 add_list_content">
-                            <div class="tab-pane fade show active" id="general_info">
-                                <h4> <i class="ion-ios-information"></i> General Information :</h4>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Listing Title</label>
-                                            <input type="text" class="form-control filter-input" placeholder="Listing Title">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Select City</label>
-                                            <div class="nice-select filter-input" tabindex="0"><span class="current">Select City</span>
-                                                <ul class="list">
-                                                    <li class="option selected focus">Jerusalem</li>
-                                                    <li class="option">Tel-Aviv</li>
+        <!--Dashboard content Wrapper starts-->
+        <div class="dash-content-wrap">
+            <!-- Top header starts-->
+            <header class="db-top-header">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-9 col-sm-6 col-4">
+                            <div class="site-navbar-wrap v2">
+                                <div class="site-navbar">
+                                    <div class="row align-items-center">
+                                        <nav class="site-navigation float-left">
+                                            <div class="container">
+                                                <ul class="site-menu js-clone-nav d-none d-lg-block">
+                                                    <li class="has-children">
+                                                    <li><a href="home.html">Home</a></li>
+                                                    </li>
+                                                    <li class="has-children">
+                                                        <a href="#">Pages</a>
+                                                        <ul class="dropdown">
+                                                            <li><a href="add-listing.html">Add Listing</a></li>
+                                                            <li><a href="../index.html">Login</a></li>
+                                                            <li><a href="user-profile.html">User profile</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="has-children">
+                                                        <a href="#">User Panel</a>
+                                                        <ul class="dropdown">
+                                                            <li><a href="my-listing.html">My Listings</a></li>
+                                                            <li><a href="messages.html">Inbox</a></li>
+                                                            <li><a href="my-profile.html">User Profile</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="d-lg-none"><a class="btn v1" href="add-listing.html">Add
+                                                            Listing <i class="ion-plus-round"></i></a></li>
                                                 </ul>
                                             </div>
+                                        </nav>
+                                        <div class="d-lg-none sm-right">
+                                            <a href="#" class="mobile-bar js-menu-toggle">
+                                                <span class="ion-android-menu"></span>
+                                            </a>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Address</label>
-                                            <input type="text" class="form-control filter-input" placeholder="Address">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mar-top-15">
-                                            <label>Phone </label>
-                                            <input type="text" class="form-control filter-input">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>
-                                                Longitude (Drag marker on the map)</label>
-                                            <input type="text" class="form-control filter-input" placeholder="Map Longitude">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>
-                                                Latitude (Drag marker on the map) </label>
-                                            <input type="text" class="form-control filter-input" placeholder="Map Latitude">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 no-padding">
-                                        <div id="map"></div>
                                     </div>
                                 </div>
+                                <div class="site-mobile-menu">
+                                    <div class="site-mobile-menu-header">
+                                        <div class="site-mobile-menu-close  js-menu-toggle">
+                                            <span class="ion-ios-close-empty"></span>
+                                        </div>
+                                    </div>
+                                    <div class="site-mobile-menu-body"></div>
+                                </div>
                             </div>
-                            <div class="tab-pane fade" id="Pricing">
-                                <h4><i class="ion-ios-location"></i> Pricing :</h4>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Price</label>
-                                            <input type="text" class="form-control filter-input" placeholder="180nis">
-                                        </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Top header ends-->
+
+            <!--Dashboard breadcrumb starts-->
+            <div class="dash-breadcrumb">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="dash-breadcrumb-content">
+                                <div class="dash-breadcrumb-left">
+                                    <div class="breadcrumb-menu text-right sm-left">
+                                        <ul>
+                                            <li class="active"><a href="home.html">Home</a></li>
+                                            <li>add listing</li>
+                                        </ul>
                                     </div>
-                                    <div class="col-md-12">
-                                        <form>
+                                </div>
+                                <a class="btn v3" href="add-listing.html"><i class="ion-plus-round"></i>Add Listing </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Dashboard breadcrumb ends-->
+            <!--Add Listing starts-->
+            <div class="list-details-section section-padding add_list pad-top-90">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs list-details-tab">
+                                <li class="nav-item active">
+                                    <a data-toggle="tab" href="#general_info">General Information</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" href="#Pricing">Pricing</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mar-tb-30 add_list_content">
+                                <div class="tab-pane fade show active" id="general_info">
+                                    <h4> <i class="ion-ios-information"></i> General Information :</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="list_info">Description</label>
-                                                <textarea class="form-control" id="list_info" rows="4" placeholder="Enter your text here"></textarea>
+                                                <label>Listing Title</label>
+                                                <input type="text" class="form-control filter-input"
+                                                    placeholder="Listing Title">
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Select City</label>
+                                                <div class="nice-select filter-input" tabindex="0"><span
+                                                        class="current">Select City</span>
+                                                    <ul class="list">
+                                                        <li class="option selected focus">Jerusalem</li>
+                                                        <li class="option">Tel-Aviv</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Address</label>
+                                                <input type="text" class="form-control filter-input"
+                                                    placeholder="Address">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mar-top-15">
+                                                <label>Phone </label>
+                                                <input type="text" class="form-control filter-input">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    Longitude (Drag marker on the map)</label>
+                                                <input type="text" class="form-control filter-input"
+                                                    placeholder="Map Longitude">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    Latitude (Drag marker on the map) </label>
+                                                <input type="text" class="form-control filter-input"
+                                                    placeholder="Map Latitude">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 no-padding">
+                                            <div id="map"></div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 text-left">
-                                        <div class="res-box mar-top-10">
-                                            <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-                                            <label for="remember">I've read and accept <a href="terms.html">terms &amp; conditions</a></label>
+                                </div>
+                                <div class="tab-pane fade" id="Pricing">
+                                    <h4><i class="ion-ios-location"></i> Pricing :</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Price</label>
+                                                <input type="text" class="form-control filter-input"
+                                                    placeholder="180nis">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 text-right sm-left">
-                                        <button class="btn v8" type="submit">Preview</button>
-                                        <button class="btn v8" type="submit">Submit</button>
+                                        <div class="col-md-12">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="list_info">Description</label>
+                                                    <textarea class="form-control" id="list_info" rows="4"
+                                                        placeholder="Enter your text here"></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-left">
+                                            <div class="res-box mar-top-10">
+                                                <input type="checkbox" tabindex="3" class="" name="remember"
+                                                    id="remember">
+                                                <label for="remember">I've read and accept <a href="terms.html">terms
+                                                        &amp; conditions</a></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-right sm-left">
+                                            <button class="btn v8" type="submit">Preview</button>
+                                            <button class="btn v8" type="submit">Submit</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -252,18 +263,25 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!--Add Listing ends-->
+            <!--Add Listing ends-->
         </div>
         <!--Dashboard content Wrapper ends-->
 
     </div>
+    <!--firebase-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
     <!-- Plugin JS-->
     <script src="../js/plugin.js"></script>
     <!--Perfect Scrollbar JS-->
     <script src="../js/perfect-scrollbar.min.js"></script>
     <!-- Main JS-->
     <script src="../js/main.js"></script>
+    <script src="../js/firebase.js"></script>
     <!-- Dashboard JS-->
     <script src="../js/dashboard.js"></script>
 </body>
