@@ -171,49 +171,22 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Listing Title</label>
-                                                <input type="text" class="form-control filter-input"
-                                                    placeholder="Listing Title">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Select City</label>
-                                                <div class="nice-select filter-input" tabindex="0"><span
-                                                        class="current">Select City</span>
-                                                    <ul class="list">
-                                                        <li class="option selected focus">Jerusalem</li>
-                                                        <li class="option">Tel-Aviv</li>
-                                                    </ul>
-                                                </div>
+                                                <input type="text" class="form-control filter-input" id="listingTitle"
+                                                    placeholder="Listing Title" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <input type="text" class="form-control filter-input"
-                                                    placeholder="Address">
+                                                <input type="text" class="form-control filter-input" id="address"
+                                                    placeholder="Address" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mar-top-15">
                                                 <label>Phone </label>
-                                                <input type="text" class="form-control filter-input">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>
-                                                    Longitude (Drag marker on the map)</label>
                                                 <input type="text" class="form-control filter-input"
-                                                    placeholder="Map Longitude">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>
-                                                    Latitude (Drag marker on the map) </label>
-                                                <input type="text" class="form-control filter-input"
-                                                    placeholder="Map Latitude">
+                                                    id="add_listing_phone" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12 no-padding">
@@ -227,8 +200,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Price</label>
-                                                <input type="text" class="form-control filter-input"
-                                                    placeholder="180nis">
+                                                <input type="text" class="form-control filter-input" id="price"
+                                                    placeholder="180nis" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -236,7 +209,8 @@
                                                 <div class="form-group">
                                                     <label for="list_info">Description</label>
                                                     <textarea class="form-control" id="list_info" rows="4"
-                                                        placeholder="Enter your text here"></textarea>
+                                                        id="description" placeholder="Enter your text here"
+                                                        required></textarea>
                                                 </div>
                                             </form>
                                         </div>
@@ -246,15 +220,14 @@
                                         </div>
                                         <div class="col-md-6 text-left">
                                             <div class="res-box mar-top-10">
-                                                <input type="checkbox" tabindex="3" class="" name="remember"
-                                                    id="remember">
+                                                <input type="checkbox" tabindex="3" class="" name="listing_terms"
+                                                    id="listing_terms" required>
                                                 <label for="remember">I've read and accept <a href="terms.html">terms
                                                         &amp; conditions</a></label>
                                             </div>
                                         </div>
                                         <div class="col-md-6 text-right sm-left">
-                                            <button class="btn v8" type="submit">Preview</button>
-                                            <button class="btn v8" type="submit">Submit</button>
+                                            <button class="btn v8" type="submit" onclick="addListing()">Submit</button>
                                         </div>
                                     </div>
                                 </div>

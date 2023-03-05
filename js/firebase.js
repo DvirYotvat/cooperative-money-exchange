@@ -79,6 +79,7 @@ function reg() {
         phone: "000-000000000",
         image_url: "",
         rate: "0/5",
+        review: "0",
       };
 
       // create user on database
@@ -355,5 +356,57 @@ function editProfile() {
     last_name: lastName,
     email: email,
     phone: phone,
+  });
+}
+
+/*----------------------------------------------------------------add listing ------------------------------------------------------------------------------------------------*/
+
+function addListing() {
+  const usersRef = firebase.database().ref("users");
+  const userRef = usersRef.child(localStorage.getItem("userID"));
+  userRef.once("value").then((snapshot) => {
+    const email = snapshot.val().email;
+    const rate = snapshot.val().rate;
+    const review = snapshot.val().review;
+
+    var title = document.getElementById("listingTitle").value;
+    var location = document.getElementById("address").value;
+    var phone = document.getElementById("add_listing_phone").value;
+    var price = document.getElementById("price").value;
+    var description = document.getElementById("list_info").value;
+
+    // get latitude and longitude
+    location = location.replace(" ", "%20");
+    var url =
+      "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" +
+      location;
+    console.log(url);
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    const lat = JSON.parse(xmlHttp.responseText)[0].lat;
+    const lon = JSON.parse(xmlHttp.responseText)[0].lon;
+
+    location = location.replace("%20", " ");
+
+    const userData = {
+      type_point: title,
+      phone: phone,
+      location_latitude: lat,
+      location_longitude: lon,
+      map_image_url: "../images/marker.png",
+      rate: rate,
+      review: review,
+      email: email,
+      location: location,
+      price: price,
+      description: description,
+    };
+
+    // create listing on database
+    firebase
+      .database()
+      .ref("listings/" + localStorage.getItem("userID"))
+      .set(userData);
   });
 }
