@@ -77,7 +77,7 @@ function reg() {
         last_name: "user",
         email: email,
         phone: "000-000000000",
-        image_url: "",
+        image_url: "../images/user.png",
         rate: "0/5",
         review: "0",
       };
@@ -222,7 +222,7 @@ function showProfileDetails() {
       imageUrl = "../images/logo.png";
     }
 
-    let profileImageStr = `<img src="${imageUrl}" alt="${firstName}" />`;
+    let profileImageStr = `<img src="${imageUrl}" alt="${firstName}" width="512" height="512"/>`;
     let hiUserStr = `<h4 class="name">Hi, ${firstName}!</h4>`;
     let profileStr = `<li>
                 <h6>First Name :</h6>
@@ -357,6 +357,10 @@ function editProfile() {
     email: email,
     phone: phone,
   });
+
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
 }
 
 /*----------------------------------------------------------------add listing ------------------------------------------------------------------------------------------------*/
@@ -390,13 +394,18 @@ function addListing() {
     location = location.replace("%20", " ");
 
     const userData = {
+      phone: phone,
+      rate: rate,
+      review: review,
+      email: email,
+    };
+
+    const userData2 = {
       type_point: title,
       phone: phone,
       location_latitude: lat,
       location_longitude: lon,
       map_image_url: "../images/marker.png",
-      rate: rate,
-      review: review,
       email: email,
       location: location,
       price: price,
@@ -406,7 +415,36 @@ function addListing() {
     // create listing on database
     firebase
       .database()
+      .ref("listings/" + localStorage.getItem("userID") + "/" + title)
+      .set(userData2);
+
+    firebase
+      .database()
       .ref("listings/" + localStorage.getItem("userID"))
-      .set(userData);
+      .update(userData);
   });
+
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
 }
+
+/*----------------------------------------------------------------currency ------------------------------------------------------------------------------------------------*/
+// function googleSearchApi() {
+//   // need to enter this in the html     <script src="https://apis.google.com/js/api.js"></script>
+
+//   const API_KEY = "AIzaSyAHthZ5KFcB6TMxYjDEPW-gAX-cz0fjQh0";
+//   const SEARCH_ENGINE_ID = "52fe6f0a4d54046fd";
+//   let QUERY = "ערך היורו";
+//   QUERY = QUERY.replace(" ", "%20");
+
+//   const url = `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${SEARCH_ENGINE_ID}&q=${QUERY}`;
+
+//   fetch(url)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log(url);
+//       console.log(data.items);
+//     })
+//     .catch((error) => console.error(error));
+// }
