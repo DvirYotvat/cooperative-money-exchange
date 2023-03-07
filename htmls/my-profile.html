@@ -25,7 +25,7 @@
 
 </head>
 
-<body onload="showProfileDetails()">
+<body onload="onloadMyProfile()">
     <!--Preloader starts-->
     <div class="preloader js-preloader">
         <img src="../images/preloader.gif" alt="...">
@@ -61,7 +61,7 @@
                         </li>
                         <li>
                             <a href="edit-profile.html">
-                                <i class="ion-ios-person-outline"></i>Edit profile</a>
+                                <i class="ion-edit"></i>Edit profile</a>
                         </li>
                         <li>
                             <a onclick="logout()">
@@ -168,7 +168,8 @@
                                             <div class="my-profile">
                                                 <ul class=" db-profile-info">
                                                 </ul>
-                                                <a href="edit-profile.html" class="btn v5">Edit profile</a>
+                                                <a href="edit-profile.html" class="btn v5"><i class="ion-edit"></i> Edit
+                                                    profile</a>
                                             </div>
                                         </div>
                                     </div>
@@ -178,9 +179,24 @@
                     </div>
                 </div>
             </div>
-            <!--Dashboard content ends-->
+            <div class="dash-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="recent-activity">
+                                <div class="act-title">
+                                    <h5><i class="ion-ios-list-outline"></i>Listing Details</h5>
+                                </div>
+                                <div class="iteams"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!--Dashboard content Wrapper ends-->
+        <!--Dashboard content ends-->
+    </div>
+    <!--Dashboard content Wrapper ends-->
     </div>
     <!--firebase-->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>

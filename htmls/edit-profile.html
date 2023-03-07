@@ -24,7 +24,7 @@
     <title>CCE - edit profile</title>
 </head>
 
-<body onload="showProfileDetails()">
+<body onload="onloadEditprofile()">
     <!--Preloader starts-->
     <div class="preloader js-preloader">
         <img src="../images/preloader.gif" alt="...">
@@ -59,7 +59,7 @@
                         </li>
                         <li>
                             <a href="edit-profile.html">
-                                <i class="ion-ios-person-outline"></i>Edit profile</a>
+                                <i class="ion-edit"></i>Edit profile</a>
                         </li>
                         <li>
                             <a onclick="logout()">
@@ -159,14 +159,13 @@
                         <div class="col-md-12">
                             <div class="db-add-list-wrap">
                                 <div class="act-title">
-                                    <h5><i class="ion-person"></i> Profile Details :</h5>
+                                    <h5><i class="ion-edit"></i> Profile Details :</h5>
                                 </div>
                                 <div class="db-add-listing">
                                     <div class="row">
                                         <div class="col-md-4 offset-md-4">
                                             <!-- Avatar -->
                                             <div class="edit-profile-photo">
-                                                <img src="images/clients/reviewer-1.png" alt="">
                                                 <div class="change-photo-btn">
                                                     <div class="contact-form__upload-btn xs-left">
                                                         <input class="contact-form__input-file" type="file"

@@ -205,8 +205,37 @@ function logout() {
   window.location.href = "../index.html";
 }
 
+/*----------------------------------------------------------------dashbord ------------------------------------------------------------------------------------------------*/
+/*----------------------------------------
+                        show dashboard
+    ------------------------------------------*/
+function showDashbordDetails() {
+  const usersRef = firebase.database().ref("users");
+  const userRef = usersRef.child(localStorage.getItem("userID"));
+  userRef.once("value").then((snapshot) => {
+    const firstName = snapshot.val().first_name;
+    const imageUrl = snapshot.val().image_url;
+    let profileImageStr = `<img src="${imageUrl}" alt="${firstName}" width="512" height="512"/>`;
+    let hiUserStr = `<h4 class="name">Hi, ${firstName}!</h4>`;
+    $(".account-img").append(profileImageStr);
+    $("#hi_user").append(hiUserStr);
+  });
+}
+
 /*----------------------------------------------------------------my profile ------------------------------------------------------------------------------------------------*/
 
+/*----------------------------------------
+                        on load function
+    ------------------------------------------*/
+function onloadMyProfile() {
+  showDashbordDetails();
+  showProfileDetails();
+  showUserListingDetails();
+}
+
+/*----------------------------------------
+                        show profile details
+    ------------------------------------------*/
 function showProfileDetails() {
   const usersRef = firebase.database().ref("users");
   const userRef = usersRef.child(localStorage.getItem("userID"));
@@ -218,12 +247,18 @@ function showProfileDetails() {
     const rate = snapshot.val().rate;
     const imageUrl = snapshot.val().image_url;
 
-    if (imageUrl == "") {
-      imageUrl = "../images/logo.png";
+    // create rating with stars icon
+    let rateing = `<div class="ratings">`;
+    let temp = ``;
+    if (rate % 1 != 0) {
+      temp = `<i class="ion-ios-star-half"></i>`;
     }
+    for (let i = 0; i < Math.trunc(rate); i++) {
+      console.log(i);
+      rateing += `<i class="ion-ios-star"></i>`;
+    }
+    rateing += temp + `</div>`;
 
-    let profileImageStr = `<img src="${imageUrl}" alt="${firstName}" width="512" height="512"/>`;
-    let hiUserStr = `<h4 class="name">Hi, ${firstName}!</h4>`;
     let profileStr = `<li>
                 <h6>First Name :</h6>
                 <span>${firstName}</span>
@@ -242,16 +277,77 @@ function showProfileDetails() {
               </li>
               <li>
                 <h6>Rate :</h6>
-                <span>${rate}</span>
+                <span>${rateing}</span>
               </li>`;
-    $(".account-img").append(profileImageStr);
-    $("#hi_user").append(hiUserStr);
     $(".db-profile-info").append(profileStr);
   });
 }
 
+/*----------------------------------------
+                show user listing details
+    ------------------------------------------*/
+function showUserListingDetails() {
+  const listingsRef = firebase.database().ref("listings");
+  const userListRef = listingsRef.child(localStorage.getItem("userID"));
+  userListRef.once("value").then((snapshot) => {
+    let listing = ``;
+    snapshot.forEach((childSnapshot) => {
+      const childData = childSnapshot.val();
+      if (typeof childData == "object") {
+        const email = childSnapshot.val().email;
+        const phone = childSnapshot.val().phone;
+        const price = childSnapshot.val().price;
+        const description = childSnapshot.val().description;
+        const title = childSnapshot.val().type_point;
+        const location = childSnapshot.val().location;
+
+        listing += `
+        <div class="most-viewed-item">
+          <div class="most-viewed-detail">
+            <h3><a>${title}</a></h3>
+            <p class="list-address"><i class="icofont-google-map"></i>${location}</p>
+            <p class="list-address"><i class="ion-ios-telephone"></i>${phone}</p>
+            <p class="list-address"><i class="ion-ios-email"></i>${email}</p>
+            <p class="list-address"><i class="ion-social-bitcoin"></i>${price}</p>
+            <p class="list-address"><i class="ion-document"></i>${description}</p>
+          </div>
+          <div class="listing-button">
+            <a class="btn v5" onclick="deleteUserListing('${title}')"><i class="ion-android-delete"></i> Delete</a>
+          </div>
+        </div>`;
+      }
+    });
+    console.log(listing);
+    $(".iteams").append(listing);
+  });
+}
+
+/*----------------------------------------
+                  delete user listing
+    ------------------------------------------*/
+function deleteUserListing(lisingTitle) {
+  firebase
+    .database()
+    .ref("listings/" + localStorage.getItem("userID") + "/" + lisingTitle)
+    .remove();
+
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
+}
+
 /*----------------------------------------------------------------edit profile ------------------------------------------------------------------------------------------------*/
 
+/*----------------------------------------
+                        on load function
+    ------------------------------------------*/
+function onloadEditprofile() {
+  showDashbordDetails();
+}
+
+/*----------------------------------------
+                  edit profile
+    ------------------------------------------*/
 function editProfile() {
   // upload image
   const storage = firebase.storage();
@@ -365,6 +461,15 @@ function editProfile() {
 
 /*----------------------------------------------------------------add listing ------------------------------------------------------------------------------------------------*/
 
+/*----------------------------------------
+                        on load function
+    ------------------------------------------*/
+function onloadAddListing() {
+  showDashbordDetails();
+}
+/*----------------------------------------
+                        add listing
+    ------------------------------------------*/
 function addListing() {
   const usersRef = firebase.database().ref("users");
   const userRef = usersRef.child(localStorage.getItem("userID"));
