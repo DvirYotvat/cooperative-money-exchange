@@ -78,7 +78,7 @@ function reg() {
         email: email,
         phone: "000-000000000",
         image_url: "../images/user.png",
-        rate: "0/5",
+        rate: "0",
         review: "0",
       };
 
@@ -106,13 +106,13 @@ function login() {
     .signInWithEmailAndPassword(userEmail, userPass)
     .then(function (firebaseUser) {
       // check if email address has been verified
-      if (!firebaseUser.user.emailVerified) {
-        const result = window.confirm(
-          "email address has not been verified, resend email verification?"
-        );
-        if (result) firebaseUser.user.sendEmailVerification();
-        return;
-      }
+      // if (!firebaseUser.user.emailVerified) {
+      //   const result = window.confirm(
+      //     "email address has not been verified, resend email verification?"
+      //   );
+      //   if (result) firebaseUser.user.sendEmailVerification();
+      //   return;
+      // }
       // check if we can use local storage
       if (typeof Storage !== "undefinde") {
         localStorage.userID = firebaseUser.user.uid;
@@ -254,7 +254,6 @@ function showProfileDetails() {
       temp = `<i class="ion-ios-star-half"></i>`;
     }
     for (let i = 0; i < Math.trunc(rate); i++) {
-      console.log(i);
       rateing += `<i class="ion-ios-star"></i>`;
     }
     rateing += temp + `</div>`;
@@ -503,6 +502,7 @@ function addListing() {
       rate: rate,
       review: review,
       email: email,
+      userUid: localStorage.getItem("userID"),
     };
 
     const userData2 = {
@@ -532,6 +532,263 @@ function addListing() {
   setTimeout(() => {
     window.location.reload();
   }, 500);
+}
+
+/*----------------------------------------------------------------home ------------------------------------------------------------------------------------------------*/
+/*----------------------------------------
+                        on load function
+    ------------------------------------------*/
+function onloadHome() {
+  showAllListings();
+  initMap();
+}
+
+/*----------------------------------------
+                        show all listings
+    ------------------------------------------*/
+
+function showAllListings() {
+  let numOfListings = 0;
+  const listingsRef = firebase.database().ref("listings");
+  listingsRef.once("value").then((snapshot) => {
+    let listing = ``;
+    let markers = `[`;
+    snapshot.forEach((childSnapshot) => {
+      childSnapshot.forEach((childS2napshot) => {
+        const childData = childS2napshot.val();
+        if (typeof childData == "object") {
+          numOfListings++;
+          const email = childS2napshot.val().email;
+          const phone = childS2napshot.val().phone;
+          const price = childS2napshot.val().price;
+          const description = childS2napshot.val().description;
+          const title = childS2napshot.val().type_point;
+          const location = childS2napshot.val().location;
+          var rate = childSnapshot.val().rate;
+          const review = childSnapshot.val().review;
+          const lat = childS2napshot.val().location_latitude;
+          const long = childS2napshot.val().location_longitude;
+
+          // create rating with stars icon
+          let rateing = `<div class="ratings">`;
+          let temp = ``;
+          if (rate % 1 != 0) {
+            temp = `<i class="ion-ios-star-half"></i>`;
+          }
+          for (let i = 0; i < Math.trunc(rate); i++) {
+            rateing += `<i class="ion-ios-star"></i>`;
+          }
+          rateing += temp + `</div>`;
+
+          listing += `
+            <div class="row trending-place-item">
+            <div class="col-md-6 no-pad-lr">
+                <div class="trending-title-box">
+                    <!-- onclick new chat -->
+                    <h4><a href="newChat">${title}</a></h4>
+                    <div class="customer-review">
+                        <div class="rating-summary float-left">
+                        ${rateing}
+                        </div>
+                        <div class="review-summury float-right">
+                            <p><a>${review} Reviews</a></p>
+                        </div>
+                    </div>
+                    <br>
+                    <ul class="trending-address">
+                        <li><i class="ion-ios-location"></i>
+                            <p>${location}</p>
+                        </li>
+                        <li><i class="ion-ios-telephone"></i>
+                            <p>${phone}</p>
+                        </li>
+                        <li><i class="ion-ios-email"></i>
+                            <p>${email}</p>
+                        </li>
+                        <li><i class="ion-social-bitcoin"></i>
+                          <p>${price}</p>
+                        </li>
+                        <li><i class="ion-document"></i>
+                        <p>${description}</p>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+        </div>`;
+
+          markers += `
+          {
+            "type_point": "${title}",
+            "location_latitude": "${lat}",
+            "location_longitude": "${long}",
+            "map_image_url": "../images/marker.png",
+            "rate": "${rate}",
+            "review": "${review} reviews",
+            "phone": "${phone}",
+            "price": "${price}",
+            "description": "${description}"
+          },
+        `;
+        }
+      });
+    });
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of 69</span> Listings</p>`;
+    $("#list-view").append(listing);
+    $("#num_of_listing").append(numOfListingsStr);
+    // markers = JSON.parse(markers);
+    // console.log(markers);
+
+    let lastIndex = markers.lastIndexOf("},");
+    if (lastIndex !== -1) {
+      markers = markers.substring(0, lastIndex) + "}";
+    }
+    markers += `
+  ]`;
+    initMap(markers);
+  });
+}
+
+/*----------------------------------------
+                        sort map
+    ------------------------------------------*/
+
+function applySearch() {
+  let searchFilter = document.getElementById("search-filter").value;
+  if (searchFilter == "") {
+    applySearchWithOnlyLocation();
+  }
+}
+
+function applySearch() {
+  let searchFilter = document.getElementById("search-filter").value;
+  if (searchFilter == "") {
+  }
+}
+
+function applySearchWithOnlyLocation() {
+  let locationFilter = document.getElementById("location-filter").value;
+}
+
+function initMap(mapMarkers) {
+  mapMarkers = JSON.parse(mapMarkers);
+  // console.log(markers);
+
+  var mapObject,
+    markers = [],
+    markersData = {
+      Marker: mapMarkers,
+    };
+
+  console.log(mapObject);
+
+  var mapOptions = {
+    zoom: 15,
+    center: new google.maps.LatLng(31.771959, 35.217018),
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+    mapTypeControl: false,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+      position: google.maps.ControlPosition.LEFT_CENTER,
+    },
+    panControl: false,
+    panControlOptions: {
+      position: google.maps.ControlPosition.TOP_RIGHT,
+    },
+    zoomControl: true,
+    zoomControlOptions: {
+      position: google.maps.ControlPosition.RIGHT_CENTER,
+    },
+    scrollwheel: false,
+    scaleControl: false,
+    scaleControlOptions: {
+      position: google.maps.ControlPosition.TOP_LEFT,
+    },
+    streetViewControl: true,
+    streetViewControlOptions: {
+      position: google.maps.ControlPosition.LEFT_TOP,
+    },
+  };
+  var marker;
+  mapObject = new google.maps.Map(
+    document.getElementById("map_right_listing"),
+    mapOptions
+  );
+  for (var key in markersData)
+    markersData[key].forEach(function (item) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(
+          item.location_latitude,
+          item.location_longitude
+        ),
+        map: mapObject,
+        icon: "../images/marker.png",
+      });
+
+      if ("undefined" === typeof markers[key]) markers[key] = [];
+      markers[key].push(marker);
+      google.maps.event.addListener(marker, "click", function () {
+        closeInfoBox();
+        getInfoBox(item).open(mapObject, this);
+        mapObject.setCenter(
+          new google.maps.LatLng(
+            item.location_latitude,
+            item.location_longitude
+          )
+        );
+      });
+    });
+
+  new MarkerClusterer(mapObject, markers[key]);
+
+  function hideAllMarkers() {
+    for (var key in markers)
+      markers[key].forEach(function (marker) {
+        marker.setMap(null);
+      });
+  }
+
+  function closeInfoBox() {
+    $("div.infoBox").remove();
+  }
+
+  function getInfoBox(item) {
+    return new InfoBox({
+      content:
+        '<div class="marker_info" id="marker_info">' +
+        "<span>" +
+        "<em>" +
+        item.type_point +
+        "</em>" +
+        '<span class="infobox_rate">' +
+        item.rate +
+        "</span>" +
+        '<span class="btn_infobox_reviews">' +
+        item.phone +
+        "</span>" +
+        '<span class="btn_infobox_reviews">' +
+        item.price +
+        "</span>" +
+        '<span class="btn_infobox_reviews">' +
+        item.description +
+        "</span>" +
+        '<span class="btn_infobox_reviews">' +
+        item.review +
+        "</span>" +
+        "</span>" +
+        "</div>",
+      pixelOffset: new google.maps.Size(10, 92),
+      closeBoxMargin: "",
+      closeBoxURL: "../images/close_infobox.png",
+      isHidden: false,
+      alignBottom: true,
+      pane: "floatPane",
+      enableEventPropagation: true,
+    });
+  }
+  function onHtmlClick(location_type, key) {
+    google.maps.event.trigger(markers[location_type][key], "click");
+  }
 }
 
 /*----------------------------------------------------------------currency ------------------------------------------------------------------------------------------------*/

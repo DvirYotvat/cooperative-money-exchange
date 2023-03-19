@@ -20,7 +20,7 @@
     <title>CCE - Home</title>
 </head>
 
-<body>
+<body onload="onloadHome()">
     <!--Preloader starts-->
     <div class="preloader js-preloader">
         <img src="../images/preloader.gif" alt="...">
@@ -91,61 +91,51 @@
         </header>
         <!--Header ends-->
         <!--fullwidth Map starts-->
-        <div class="contact-map v2  map-full">
-            <div class="container-fluid no-pad-lr">
+        <div class="filter-wrapper style1 mar-top-100 half-map">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12 no-padding">
-                        <div id="map_right_listing"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="filter-wrapper style1 v2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form class="hero__form v2 filter mar-bot-30">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-12">
-                                        <select class="hero__form-input  custom-select" id="from-coin">
-                                            <option>ממטבע..</option>
-                                            <option>שקל</option>
-                                            <option>דולר</option>
-                                            <option>אירו</option>
-                                        </select>
-
-                                    </div>
-                                    <div class="col-lg-3 col-md-12">
-                                        <select class="hero__form-input  custom-select" id="to-coin">
-                                            <option>למטבע..</option>
-                                            <option>שקל</option>
-                                            <option>דולר</option>
-                                            <option>אירו</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-3 col-md-12">
-                                        <select class="hero__form-input  custom-select" id="search-radius">
-                                            <option>קילומטר</option>
-                                            <option>2 קילומטר</option>
-                                            <option>3 קילומטר</option>
-                                            <option>4 קילומטר</option>
-                                            <option>5 קילומטר</option>
-                                            <option>6 קילומטר</option>
-                                            <option>7 קילומטר</option>
-                                            <option>8 קילומטר</option>
-                                            <option>9 קילומטר</option>
-                                            <option>10 קילומטר</option>
-                                            <option>כל הארץ</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-2 col-md-12">
-                                        <div class="submit_btn text-right md-left">
-                                            <button class="btn v3  mar-right-5" type="submit"><i class="ion-ios-search"
-                                                    aria-hidden="true"></i> Search</button>
+                    <div class="col-lg-7 col-md-12">
+                        <div class="form-group filter-group">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <input type="text" class="form-control filter-input" id="search-filter"
+                                        name="search-bar" placeholder="I'm looking for . . .">
+                                </div>
+                                <div class="col-md-6  col-12">
+                                    <input type="text" class="form-control filter-input" id="location-filter"
+                                        name="search-bar" placeholder="Location">
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="filter-sub-area style1">
+                                        <div class="filter-title  mar-top-20 mar-bot-15">
+                                            <p>Choose distance : <span><input type="text" id="amount"></span></p>
                                         </div>
+                                        <div id="slider-range" class="price-range mar-bot-40"></div>
                                     </div>
                                 </div>
-                            </form>
+                                <div class="col-md-6  col-12 text-right sm-left">
+                                    <button type="submit" class="btn v1 mar-top-10"
+                                        onclick="applySearch()">Apply</button>
+                                </div>
+                            </div>
                         </div>
+                        <div class="row mar-top-25 pad-bot-30 align-items-center">
+                            <div class="col-lg-8 col-sm-8 col-12">
+                                <div class="item-element res-box  text-right xs-left" id="num_of_listing">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-wrapper">
+                            <div class="tab-content">
+                                <div id="list-view" class="tab-pane active product-list">
+                                    <!-- start listing list -->
+                                    <!-- end listing list -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="explore__map-side">
+                        <div id="map_right_listing"></div>
                     </div>
                 </div>
             </div>
@@ -154,6 +144,13 @@
     </div>
     <!--Page Wrapper ends-->
     <!--Scripts starts-->
+    <!--firebase-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
     <!--plugin js-->
     <script src="../js/plugin.js"></script>
     <!--google maps-->
@@ -165,8 +162,13 @@
     <script src="../js/maps.js"></script>
     <!--Main js-->
     <script src="../js/main.js"></script>
+    <script src="../js/firebase.js"></script>
     <!--Scripts ends-->
     <script src="../js/infobox.min.js"></script>
+    <!--Perfect Scrollbar JS-->
+    <script src="../js/perfect-scrollbar.min.js"></script>
+    <!-- Dashboard JS-->
+    <script src="../js/dashboard.js"></script>
 
 </body>
 
