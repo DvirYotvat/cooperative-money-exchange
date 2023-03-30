@@ -2732,10 +2732,6 @@ section.coupon {
 /*-------------------------------------------
              Filter Listing 
 --------------------------------------------*/
-
-/*-------------------------------------------
-             Filter Listing 
---------------------------------------------*/
 .range-text {
     line-height: 39px;
 }
@@ -2830,7 +2826,6 @@ section.coupon {
 .theme-menu .filter-sub-menu.style1 ul li.has-sub>a:after {
     content: "\f218";
     font-family: "Ionicons";
-
 }
 
 .theme-menu .filter-sub-menu.style1 ul li.has-sub.open>a:after {
@@ -3135,6 +3130,7 @@ section.coupon {
 .item-wrapper .product-list .trending-place-item {
     box-shadow: 0 0 17px 0 rgba(0, 0, 0, 0.1);
     margin-bottom: 50px;
+    margin-right: 120px;
 }
 
 
@@ -3152,7 +3148,7 @@ section.coupon {
 
 /*--------filter with sticky map------*/
 .explore__map-side {
-    width: 50%;
+    width: 44%;
     position: fixed;
     top: 70px;
     height: 100%;

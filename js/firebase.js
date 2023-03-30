@@ -106,13 +106,13 @@ function login() {
     .signInWithEmailAndPassword(userEmail, userPass)
     .then(function (firebaseUser) {
       // check if email address has been verified
-      // if (!firebaseUser.user.emailVerified) {
-      //   const result = window.confirm(
-      //     "email address has not been verified, resend email verification?"
-      //   );
-      //   if (result) firebaseUser.user.sendEmailVerification();
-      //   return;
-      // }
+      if (!firebaseUser.user.emailVerified) {
+        const result = window.confirm(
+          "email address has not been verified, resend email verification?"
+        );
+        if (result) firebaseUser.user.sendEmailVerification();
+        return;
+      }
       // check if we can use local storage
       if (typeof Storage !== "undefinde") {
         localStorage.userID = firebaseUser.user.uid;
@@ -205,6 +205,13 @@ function logout() {
   window.location.href = "../index.html";
 }
 
+/*----------------------------------------
+                        guest checker
+    ------------------------------------------*/
+function guestCheck() {
+  if (!localStorage.getItem("userID")) window.location.href = "../index.html";
+}
+
 /*----------------------------------------------------------------dashbord ------------------------------------------------------------------------------------------------*/
 /*----------------------------------------
                         show dashboard
@@ -228,6 +235,7 @@ function showDashbordDetails() {
                         on load function
     ------------------------------------------*/
 function onloadMyProfile() {
+  guestCheck();
   showDashbordDetails();
   showProfileDetails();
   showUserListingDetails();
@@ -341,6 +349,7 @@ function deleteUserListing(lisingTitle) {
                         on load function
     ------------------------------------------*/
 function onloadEditprofile() {
+  guestCheck();
   showDashbordDetails();
 }
 
@@ -453,9 +462,9 @@ function editProfile() {
     phone: phone,
   });
 
-  setTimeout(() => {
-    window.location.reload();
-  }, 500);
+  // setTimeout(() => {
+  //   window.location.reload();
+  // }, 500);
 }
 
 /*----------------------------------------------------------------add listing ------------------------------------------------------------------------------------------------*/
@@ -464,6 +473,7 @@ function editProfile() {
                         on load function
     ------------------------------------------*/
 function onloadAddListing() {
+  guestCheck();
   showDashbordDetails();
 }
 /*----------------------------------------
@@ -632,7 +642,7 @@ function showAllListings() {
         }
       });
     });
-    let numOfListingsStr = `<p>Showing <span>${numOfListings} of 69</span> Listings</p>`;
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
     $("#list-view").append(listing);
     $("#num_of_listing").append(numOfListingsStr);
     // markers = JSON.parse(markers);
@@ -789,6 +799,15 @@ function initMap(mapMarkers) {
   function onHtmlClick(location_type, key) {
     google.maps.event.trigger(markers[location_type][key], "click");
   }
+}
+
+/*----------------------------------------------------------------messages ------------------------------------------------------------------------------------------------*/
+/*----------------------------------------
+                        on load function
+    ------------------------------------------*/
+function onloadMessages() {
+  guestCheck();
+  showDashbordDetails();
 }
 
 /*----------------------------------------------------------------currency ------------------------------------------------------------------------------------------------*/
