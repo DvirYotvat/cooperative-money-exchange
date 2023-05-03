@@ -550,7 +550,6 @@ function addListing() {
     ------------------------------------------*/
 function onloadHome() {
   showAllListings();
-  initMap();
 }
 
 /*----------------------------------------
@@ -564,6 +563,7 @@ function showAllListings() {
     let listing = ``;
     let markers = `[`;
     snapshot.forEach((childSnapshot) => {
+      const userId = childSnapshot.val().userUid;
       childSnapshot.forEach((childS2napshot) => {
         const childData = childS2napshot.val();
         if (typeof childData == "object") {
@@ -595,7 +595,7 @@ function showAllListings() {
             <div class="col-md-6 no-pad-lr">
                 <div class="trending-title-box">
                     <!-- onclick new chat -->
-                    <h4><a href="newChat">${title}</a></h4>
+                    <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${numOfListings}"">${title}</a></h4>
                     <div class="customer-review">
                         <div class="rating-summary float-left">
                         ${rateing}
@@ -679,6 +679,10 @@ function applySearchWithOnlyLocation() {
   let locationFilter = document.getElementById("location-filter").value;
 }
 
+/*----------------------------------------
+                        init map
+    ------------------------------------------*/
+
 function initMap(mapMarkers) {
   mapMarkers = JSON.parse(mapMarkers);
   // console.log(markers);
@@ -751,13 +755,6 @@ function initMap(mapMarkers) {
 
   new MarkerClusterer(mapObject, markers[key]);
 
-  function hideAllMarkers() {
-    for (var key in markers)
-      markers[key].forEach(function (marker) {
-        marker.setMap(null);
-      });
-  }
-
   function closeInfoBox() {
     $("div.infoBox").remove();
   }
@@ -796,18 +793,163 @@ function initMap(mapMarkers) {
       enableEventPropagation: true,
     });
   }
-  function onHtmlClick(location_type, key) {
-    google.maps.event.trigger(markers[location_type][key], "click");
-  }
 }
 
 /*----------------------------------------------------------------messages ------------------------------------------------------------------------------------------------*/
+/*----------------------------------------
+                        get element details
+    ------------------------------------------*/
+function getElementDetails(event) {
+  event.preventDefault();
+  // Get the element details
+  const href = this.href;
+  const title = this.title;
+  const id = this.dataset.id;
+  // Log the details to the console
+  console.log(`row: ${value}`);
+  console.log(`ID: ${id}`);
+}
+
 /*----------------------------------------
                         on load function
     ------------------------------------------*/
 function onloadMessages() {
   guestCheck();
   showDashbordDetails();
+
+  // get values from url
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("U");
+  const row = urlParams.get("V");
+  if (id != null) sendChat(id, true);
+  else sendChat();
+}
+
+function changeClass() {
+  var element2 = document.getElementById("insertMasseges");
+  element2.classList.remove("au-inbox-wrap", "js-inbox-wrap");
+  element2.classList.add("au-inbox-wrap", "js-inbox-wrap", "show-chat-box");
+}
+
+function sendChat(newChat) {
+  var str = ``;
+  const listingsRef = firebase.database().ref("chats");
+  listingsRef.once("value").then((snapshot) => {
+    snapshot.forEach((childSnapshot) => {
+      if (localStorage.getItem("userID") == childSnapshot.key) {
+        childSnapshot.forEach((childS2napshot) => {
+          let otheruserUid = childS2napshot.key;
+          console.log(otheruserUid);
+          const childData = childS2napshot.val();
+          const usersRef = firebase.database().ref("users");
+          const userRef = usersRef.child(otheruserUid);
+          const userData = [];
+
+          const userData2 = userRef.once("value").then((snapshot) => {
+            let firstName = snapshot.val().first_name;
+            let imageUrl = snapshot.val().image_url;
+            localStorage.OtherUserName = firstName;
+            localStorage.OtherUserImage = imageUrl;
+            userData.push(firstName, imageUrl);
+            return [firstName, imageUrl];
+          });
+
+          console.log(userData);
+          let first = userData[0];
+          let image = userData[1];
+          console.log(userData[1]);
+
+          let mainClass = "au-inbox-wrap js-inbox-wrap";
+          if (newChat) mainClass = "au-inbox-wrap js-inbox-wrap show-chat-box";
+
+          str += `<div class="${mainClass}">
+            <div class="au-message js-list-load">
+                <div class="au-message-list">
+                    <div class="au-message__item" onclick="changeClass()">
+                        <div class="au-message__item-inner">
+                            <div class="au-message__item-text">
+                                <div class="avatar-wrap">
+                                    <div class="avatar">
+                                        <img src="${localStorage.getItem(
+                                          "OtherUserImage"
+                                        )}" alt="${localStorage.getItem(
+            "OtherUserName"
+          )}">
+                                    </div>
+                                </div>
+                                <div class="text">
+                                    <h5 class="name">${localStorage.getItem(
+                                      "OtherUserName"
+                                    )}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="au-chat">
+                <div class="au-chat__title">
+                    <div class="au-chat-info">
+                        <div class="avatar-wrap">
+                            <div class="avatar avatar--small">
+                                <img src="${localStorage.getItem(
+                                  "OtherUserImage"
+                                )}" alt="user1">
+                            </div>
+                        </div>
+                        <span class="nick">
+                            <a>${localStorage.getItem("OtherUserName")}</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="au-chat__content">
+                    <div class="send-mess-wrap">
+                        <div class="send-mess__inner">
+                            <div class="send-mess-list">
+                                <div class="send-mess">${childData.m_1}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recei-mess-wrap">
+                        <div class="recei-mess__inner">
+                            <div class="avatar avatar--tiny">
+                                <img src="${localStorage.getItem(
+                                  "OtherUserImage"
+                                )}" alt="user1">
+                            </div>
+                            <div class="recei-mess-list">
+                                <div class="recei-mess">${childData.h_2}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+        });
+      }
+    });
+    str += `<div class="au-chat-textfield">
+    <form class="au-form-icon">
+        <input class="au-input au-input--full au-input--h65" type="textarea"
+            placeholder="Type a message">
+        <div class="mess-btn mar-top-20">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <a href="messages.html" class="float-left btn v3"><i
+                            class="ion-ios-arrow-back"></i> Back</a>
+                </div>
+                <div class="col-md-6 col-sm-12 order-md-2 order-first">
+                    <a class="float-right sm-left btn v8"> Send message<i
+                            class="ion-android-send"></i></a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+</div>`;
+    $("#insertMasseges").append(str);
+  });
 }
 
 /*----------------------------------------------------------------currency ------------------------------------------------------------------------------------------------*/
