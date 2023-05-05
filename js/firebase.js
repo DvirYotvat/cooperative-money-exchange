@@ -498,7 +498,6 @@ function addListing() {
     var url =
       "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" +
       location;
-    console.log(url);
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
@@ -595,7 +594,7 @@ function showAllListings() {
             <div class="col-md-6 no-pad-lr">
                 <div class="trending-title-box">
                     <!-- onclick new chat -->
-                    <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${numOfListings}"">${title}</a></h4>
+                    <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${true}"">${title}</a></h4>
                     <div class="customer-review">
                         <div class="rating-summary float-left">
                         ${rateing}
@@ -814,15 +813,28 @@ function getElementDetails(event) {
                         on load function
     ------------------------------------------*/
 function onloadMessages() {
+  $(document).on("keypress", (e) => {
+    if (e.keyCode === 13) {
+      if (document.getElementById("messageTextbox").value == "") return false;
+      else {
+        sendMsg();
+        return false;
+      }
+    }
+  });
   guestCheck();
   showDashbordDetails();
-
   // get values from url
   const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("U");
-  const row = urlParams.get("V");
-  if (id != null) sendChat(id, true);
-  else sendChat();
+  const jump = urlParams.get("V");
+  const uid = urlParams.get("U");
+  if (jump == "true") {
+    if (localStorage.getItem("userID") == uid) location.href = "home.html";
+    changeClass();
+    loadMessages(urlParams.get("U"));
+  } else {
+  }
+  loadInbox();
 }
 
 function changeClass() {
@@ -831,124 +843,174 @@ function changeClass() {
   element2.classList.add("au-inbox-wrap", "js-inbox-wrap", "show-chat-box");
 }
 
-function sendChat(newChat) {
-  var str = ``;
-  const listingsRef = firebase.database().ref("chats");
-  listingsRef.once("value").then((snapshot) => {
+/*----------------------------------------
+                        send message
+    ------------------------------------------*/
+
+function sendMsg() {
+  const urlParams = new URLSearchParams(window.location.search);
+  var uid = urlParams.get("U");
+  var message = document.getElementById("messageTextbox").value;
+
+  // sending data
+  const usersRef = firebase.database().ref("users");
+  const userRef = usersRef.child(uid);
+  userRef.once("value").then((snapshot) => {
+    let firstName = snapshot.val().first_name;
+    let imageUrl = snapshot.val().image_url;
+    const id = firebase.database().ref("messages").push().key;
+    const newChildRef = firebase
+      .database()
+      .ref("messages/" + localStorage.getItem("userID"))
+      .child(id);
+    newChildRef.set({
+      resiveUid: uid,
+      sendingUid: localStorage.getItem("userID"),
+      talkWith: uid,
+      message: message,
+      imageUrl: imageUrl,
+      name: firstName,
+    });
+  });
+
+  // resive sending data
+  const usersRef2 = firebase.database().ref("users");
+  const userRef2 = usersRef2.child(localStorage.getItem("userID"));
+  userRef2.once("value").then((snapshot) => {
+    let firstName = snapshot.val().first_name;
+    let imageUrl = snapshot.val().image_url;
+    const id = firebase.database().ref("messages").push().key;
+    const newChildRef = firebase
+      .database()
+      .ref("messages/" + uid)
+      .child(id);
+    newChildRef.set({
+      resiveUid: uid,
+      sendingUid: localStorage.getItem("userID"),
+      talkWith: localStorage.getItem("userID"),
+      message: message,
+      imageUrl: imageUrl,
+      name: firstName,
+    });
+  });
+
+  document.getElementById("messageTextbox").value = "";
+}
+
+/*----------------------------------------
+                        load inbox
+    ------------------------------------------*/
+
+function loadInbox() {
+  let str = ``;
+  const messagesRef = firebase.database().ref("messages");
+  messagesRef.once("value").then((snapshot) => {
     snapshot.forEach((childSnapshot) => {
       if (localStorage.getItem("userID") == childSnapshot.key) {
         childSnapshot.forEach((childS2napshot) => {
-          let otheruserUid = childS2napshot.key;
-          console.log(otheruserUid);
-          const childData = childS2napshot.val();
-          const usersRef = firebase.database().ref("users");
-          const userRef = usersRef.child(otheruserUid);
-          const userData = [];
-
-          const userData2 = userRef.once("value").then((snapshot) => {
-            let firstName = snapshot.val().first_name;
-            let imageUrl = snapshot.val().image_url;
-            localStorage.OtherUserName = firstName;
-            localStorage.OtherUserImage = imageUrl;
-            userData.push(firstName, imageUrl);
-            return [firstName, imageUrl];
-          });
-
-          console.log(userData);
-          let first = userData[0];
-          let image = userData[1];
-          console.log(userData[1]);
-
-          let mainClass = "au-inbox-wrap js-inbox-wrap";
-          if (newChat) mainClass = "au-inbox-wrap js-inbox-wrap show-chat-box";
-
-          str += `<div class="${mainClass}">
-            <div class="au-message js-list-load">
-                <div class="au-message-list">
-                    <div class="au-message__item" onclick="changeClass()">
-                        <div class="au-message__item-inner">
-                            <div class="au-message__item-text">
-                                <div class="avatar-wrap">
-                                    <div class="avatar">
-                                        <img src="${localStorage.getItem(
-                                          "OtherUserImage"
-                                        )}" alt="${localStorage.getItem(
-            "OtherUserName"
-          )}">
-                                    </div>
-                                </div>
-                                <div class="text">
-                                    <h5 class="name">${localStorage.getItem(
-                                      "OtherUserName"
-                                    )}</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="au-chat">
-                <div class="au-chat__title">
-                    <div class="au-chat-info">
-                        <div class="avatar-wrap">
-                            <div class="avatar avatar--small">
-                                <img src="${localStorage.getItem(
-                                  "OtherUserImage"
-                                )}" alt="user1">
-                            </div>
-                        </div>
-                        <span class="nick">
-                            <a>${localStorage.getItem("OtherUserName")}</a>
-                        </span>
-                    </div>
-                </div>
-                <div class="au-chat__content">
-                    <div class="send-mess-wrap">
-                        <div class="send-mess__inner">
-                            <div class="send-mess-list">
-                                <div class="send-mess">${childData.m_1}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="recei-mess-wrap">
-                        <div class="recei-mess__inner">
-                            <div class="avatar avatar--tiny">
-                                <img src="${localStorage.getItem(
-                                  "OtherUserImage"
-                                )}" alt="user1">
-                            </div>
-                            <div class="recei-mess-list">
-                                <div class="recei-mess">${childData.h_2}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                `;
+          if (!str.includes(childS2napshot.val().talkWith)) {
+            str += `
+                <div class="au-message__item">
+                  <div class="au-message__item-inner" onclick='loadMessages("${localStorage.getItem(
+                    "userID"
+                  )}", "${childS2napshot.val().talkWith}")'>
+                      <div class="au-message__item-text">
+                          <div class="avatar-wrap">
+                              <div class="avatarImage">
+                                  <img src="${
+                                    childS2napshot.val().imageUrl
+                                  }" alt="${
+              childS2napshot.val().name
+            }" height="40" width="40">
+                              </div>
+                          </div>
+                          <div class="text">
+                              <h5 id='${
+                                childS2napshot.val().resiveUid
+                              }' class="name">${childS2napshot.val().name}</h5>
+                          </div>
+                      </div>
+                  </div>
+                </div>`;
+          }
         });
       }
     });
-    str += `<div class="au-chat-textfield">
-    <form class="au-form-icon">
-        <input class="au-input au-input--full au-input--h65" type="textarea"
-            placeholder="Type a message">
-        <div class="mess-btn mar-top-20">
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <a href="messages.html" class="float-left btn v3"><i
-                            class="ion-ios-arrow-back"></i> Back</a>
-                </div>
-                <div class="col-md-6 col-sm-12 order-md-2 order-first">
-                    <a class="float-right sm-left btn v8"> Send message<i
-                            class="ion-android-send"></i></a>
+    $(".au-message-list").append(str);
+  });
+}
+
+/*----------------------------------------
+                        load messages
+    ------------------------------------------*/
+function loadMessages(thisUid, otherUid) {
+  changeClass();
+  let str = ``;
+  const newMsg = firebase
+    .database()
+    .ref("messages/" + localStorage.getItem("userID"));
+  newMsg.on("child_added", (data) => {
+    if (otherUid == data.val().talkWith) {
+      if (!str.includes(`class="au-chat__title"`)) {
+        // check with wich user i talk with and put it in the url
+        let temp;
+        if (localStorage.getItem("userID") == data.val().resiveUid)
+          temp = data.val().sendingUid;
+        else temp = data.val().resiveUid;
+        const params = new URLSearchParams(window.location.search);
+        params.set("U", temp);
+        window.history.replaceState(
+          {},
+          "",
+          decodeURIComponent(`${window.location.pathname}?${params}`)
+        );
+        // add with who i talk about
+        str += `
+          <div class="au-chat__title">
+            <div class="au-chat-info">
+              <div class="avatar-wrap">
+                  <div class="avatar--small">
+                      <img src="${data.val().imageUrl}" alt="${
+          data.val().name
+        }">
+                  </div>
+              </div>
+              <span class="nick">
+                  <a>${data.val().name}</a>
+              </span>
+            </div>
+          </div>
+          <div id="au-chat__content" class="au-chat__content">
+          </div>`;
+        var d1 = document.getElementById("chatContent");
+        d1.insertAdjacentHTML("beforebegin", str);
+      }
+      // case you ar not the sending messeage
+      if (data.val().sendingUid != localStorage.getItem("userID")) {
+        var divData = `
+          <div class="recei-mess-wrap">
+            <div class="recei-mess__inner">
+                <div class="recei-mess-list">
+                    <div class="recei-mess">${data.val().message}</div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
-</div>
-</div>`;
-    $("#insertMasseges").append(str);
+          </div>`;
+        var d1 = document.getElementById("au-chat__content");
+        d1.insertAdjacentHTML("beforebegin", divData);
+        // case you are the sending messeage
+      } else {
+        var divData = `
+          <div class="send-mess-wrap">
+            <div class="send-mess__inner">
+                <div class="send-mess-list">
+                    <div class="send-mess">${data.val().message}</div>
+                </div>
+            </div>
+          </div>`;
+        var d1 = document.getElementById("au-chat__content");
+        d1.insertAdjacentHTML("beforebegin", divData);
+      }
+    }
   });
 }
 
