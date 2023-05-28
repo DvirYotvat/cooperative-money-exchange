@@ -252,8 +252,11 @@ function showProfileDetails() {
     const lastName = snapshot.val().last_name;
     const email = snapshot.val().email;
     const phone = snapshot.val().phone;
-    const rate = snapshot.val().rate;
+    let rate = snapshot.val().rate;
+    const review = snapshot.val().review;
     const imageUrl = snapshot.val().image_url;
+
+    if (rate != 0) rate = rate / review;
 
     // create rating with stars icon
     let rateing = `<div class="ratings">`;
@@ -580,6 +583,8 @@ function showAllListings() {
           const review = childSnapshot.val().review;
           const lat = childS2napshot.val().location_latitude;
           const long = childS2napshot.val().location_longitude;
+
+          if (rate != 0) rate = rate / review;
 
           // create rating with stars icon
           let rateing = `<div class="ratings">`;
