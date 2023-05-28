@@ -490,7 +490,8 @@ function addListing() {
     var title = document.getElementById("listingTitle").value;
     var location = document.getElementById("address").value;
     var phone = document.getElementById("add_listing_phone").value;
-    var price = document.getElementById("price").value;
+    var fromPrice = document.getElementById("priceFrom").value;
+    var toPrice = document.getElementById("priceTo").value;
     var description = document.getElementById("list_info").value;
 
     // get latitude and longitude
@@ -522,7 +523,8 @@ function addListing() {
       map_image_url: "../images/marker.png",
       email: email,
       location: location,
-      price: price,
+      price_from: fromPrice,
+      price_to: toPrice,
       description: description,
     };
 
@@ -569,7 +571,8 @@ function showAllListings() {
           numOfListings++;
           const email = childS2napshot.val().email;
           const phone = childS2napshot.val().phone;
-          const price = childS2napshot.val().price;
+          const priceF = childS2napshot.val().price_from;
+          const priceT = childS2napshot.val().price_to;
           const description = childS2napshot.val().description;
           const title = childS2napshot.val().type_point;
           const location = childS2napshot.val().location;
@@ -593,7 +596,6 @@ function showAllListings() {
             <div class="row trending-place-item">
             <div class="col-md-6 no-pad-lr">
                 <div class="trending-title-box">
-                    <!-- onclick new chat -->
                     <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${true}"">${title}</a></h4>
                     <div class="customer-review">
                         <div class="rating-summary float-left">
@@ -605,19 +607,22 @@ function showAllListings() {
                     </div>
                     <br>
                     <ul class="trending-address">
-                        <li><i class="ion-ios-location"></i>
+                        <li>
                             <p>${location}</p>
                         </li>
-                        <li><i class="ion-ios-telephone"></i>
+                        <li>
                             <p>${phone}</p>
                         </li>
-                        <li><i class="ion-ios-email"></i>
+                        <li>
                             <p>${email}</p>
                         </li>
-                        <li><i class="ion-social-bitcoin"></i>
-                          <p>${price}</p>
+                        <li>
+                          <p> from: ${priceF}</p>
                         </li>
-                        <li><i class="ion-document"></i>
+                        <li>
+                        <p> to: ${priceT}</p>
+                      </li>
+                        <li>
                         <p>${description}</p>
                     </li>
                     </ul>
@@ -634,7 +639,8 @@ function showAllListings() {
             "rate": "${rate}",
             "review": "${review} reviews",
             "phone": "${phone}",
-            "price": "${price}",
+            "priceF":"${priceF}",
+            "priceT":"${priceT}",
             "description": "${description}"
           },
         `;
@@ -773,7 +779,12 @@ function initMap(mapMarkers) {
         item.phone +
         "</span>" +
         '<span class="btn_infobox_reviews">' +
-        item.price +
+        "From:" +
+        item.priceF +
+        "</span>" +
+        '<span class="btn_infobox_reviews">' +
+        "To:" +
+        item.priceT +
         "</span>" +
         '<span class="btn_infobox_reviews">' +
         item.description +
@@ -978,6 +989,22 @@ function loadMessages(thisUid, otherUid) {
               <span class="nick">
                   <a>${data.val().name}</a>
               </span>
+              <div class="rating">
+              <input type="radio" name="rating" id="r1" onclick="updateScore(5)">
+              <label for="r1"></label>
+          
+              <input type="radio" name="rating" id="r2" onclick="updateScore(4)">
+              <label for="r2"></label>
+          
+              <input type="radio" name="rating" id="r3" onclick="updateScore(3)">
+              <label for="r3"></label>
+          
+              <input type="radio" name="rating" id="r4" onclick="updateScore(2)">
+              <label for="r4"></label>
+          
+              <input type="radio" name="rating" id="r5" onclick="updateScore(1)">
+              <label for="r5"></label>
+            </div>
             </div>
           </div>
           <div id="au-chat__content" class="au-chat__content">
@@ -1010,6 +1037,81 @@ function loadMessages(thisUid, otherUid) {
         var d1 = document.getElementById("au-chat__content");
         d1.insertAdjacentHTML("beforebegin", divData);
       }
+    }
+  });
+}
+
+/*----------------------------------------
+                        update user score
+    ------------------------------------------*/
+function updateScore(score) {
+  const urlParams = new URLSearchParams(window.location.search);
+  var uid = urlParams.get("U");
+
+  const databaseR = firebase
+    .database()
+    .ref("ratings/" + localStorage.getItem("userID") + "/" + uid);
+  // Get the current value
+  databaseR.once("value").then((snapshot) => {
+    const currentValue = snapshot.val();
+    // check if user alrady rate this other user
+    if (currentValue != null) {
+      alert("alrady rate this user!");
+      return;
+    } else {
+      const userData = {};
+      userData[uid] = uid;
+
+      firebase
+        .database()
+        .ref("ratings/" + localStorage.getItem("userID"))
+        .update(userData);
+
+      const databaseRef = firebase
+        .database()
+        .ref("listings/" + uid + "/review");
+      // Get the current value
+      databaseRef
+        .once("value")
+        .then((snapshot) => {
+          const currentValue = snapshot.val();
+          // Perform any necessary updates to the value
+          let updatedValue = currentValue + 1;
+          // Update the value
+          databaseRef
+            .set(updatedValue)
+            .then(() => {
+              console.log("Value updated successfully.");
+            })
+            .catch((error) => {
+              console.error("Error updating value:", error);
+            });
+        })
+        .catch((error) => {
+          console.error("Error getting current value:", error);
+        });
+
+      const databaseRef2 = firebase.database().ref("listings/" + uid + "/rate");
+      // Get the current value
+      databaseRef2
+        .once("value")
+        .then((snapshot) => {
+          const currentValue = snapshot.val();
+          // Perform any necessary updates to the value
+          let updatedValue = currentValue + score;
+          // Update the value
+          databaseRef2
+            .set(updatedValue)
+            .then(() => {
+              console.log("Value updated successfully.");
+            })
+            .catch((error) => {
+              console.error("Error updating value:", error);
+            });
+        })
+        .catch((error) => {
+          console.error("Error getting current value:", error);
+        });
     }
   });
 }
