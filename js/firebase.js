@@ -548,6 +548,26 @@ function addListing() {
   }, 500);
 }
 
+var modal = document.getElementById("termsPopup");
+// Get the button that opens the modal
+var btn = document.getElementById("terms");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks the button, open the modal
+btn.onclick = function () {
+  modal.style.display = "block";
+};
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+};
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
 /*----------------------------------------------------------------home ------------------------------------------------------------------------------------------------*/
 /*----------------------------------------
                         on load function
@@ -598,7 +618,7 @@ function showAllListings() {
           rateing += temp + `</div>`;
 
           listing += `
-            <div class="row trending-place-item">
+            <div class="row trending-place-item" onclick='collapsible(contentListing${numOfListings})'>
             <div class="col-md-6 no-pad-lr">
                 <div class="trending-title-box">
                     <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${true}"">${title}</a></h4>
@@ -611,26 +631,28 @@ function showAllListings() {
                         </div>
                     </div>
                     <br>
-                    <ul class="trending-address">
-                        <li>
-                            <p>${location}</p>
+                    <div id="contentListing${numOfListings}" style="display:none">
+                      <ul class="trending-address">
+                          <li>
+                              <p>${location}</p>
+                          </li>
+                          <li>
+                              <p>${phone}</p>
+                          </li>
+                          <li>
+                              <p>${email}</p>
+                          </li>
+                          <li>
+                            <p> from: ${priceF}</p>
+                          </li>
+                          <li>
+                          <p> to: ${priceT}</p>
                         </li>
-                        <li>
-                            <p>${phone}</p>
-                        </li>
-                        <li>
-                            <p>${email}</p>
-                        </li>
-                        <li>
-                          <p> from: ${priceF}</p>
-                        </li>
-                        <li>
-                        <p> to: ${priceT}</p>
+                          <li>
+                          <p>${description}</p>
                       </li>
-                        <li>
-                        <p>${description}</p>
-                    </li>
-                    </ul>
+                      </ul>
+                    </div>
                 </div>
             </div>
         </div>`;
@@ -666,6 +688,14 @@ function showAllListings() {
   ]`;
     initMap(markers);
   });
+}
+
+function collapsible(x) {
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
 }
 
 /*----------------------------------------
