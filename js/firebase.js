@@ -703,20 +703,589 @@ function collapsible(x) {
     ------------------------------------------*/
 
 function applySearch() {
-  let searchFilter = document.getElementById("search-filter").value;
-  if (searchFilter == "") {
+  $("#list-view").html("");
+  $("#num_of_listing").html("");
+  let searchFilterTo = document.getElementById("search-filter-to").value;
+  let searchFilterFrom = document.getElementById("search-filter-from").value;
+  if (searchFilterTo == "" && searchFilterFrom == "") {
     applySearchWithOnlyLocation();
+  } else if (searchFilterTo != "" && searchFilterFrom != "") {
+    applySearchFromAndTo();
+  } else if (searchFilterTo != "" && searchFilterFrom == "") {
+    applySearchOnlyTo();
+  } else if (searchFilterTo == "" && searchFilterFrom != "") {
+    applySearchOnlyFrom();
+  } else {
+    applySearchFromAndToAndLocation();
   }
 }
 
-function applySearch() {
-  let searchFilter = document.getElementById("search-filter").value;
-  if (searchFilter == "") {
-  }
+function applySearchFromAndToAndLocation() {
+  let locationFilter = document.getElementById("location-filter").value;
+
+  let numOfListings = 0;
+  const listingsRef = firebase.database().ref("listings");
+  listingsRef.once("value").then((snapshot) => {
+    let listing = ``;
+    let markers = `[`;
+    snapshot.forEach((childSnapshot) => {
+      const userId = childSnapshot.val().userUid;
+      childSnapshot.forEach((childS2napshot) => {
+        const childData = childS2napshot.val();
+        if (typeof childData == "object") {
+          numOfListings++;
+          const email = childS2napshot.val().email;
+          const phone = childS2napshot.val().phone;
+          const priceF = childS2napshot.val().price_from;
+          const priceT = childS2napshot.val().price_to;
+          const description = childS2napshot.val().description;
+          const title = childS2napshot.val().type_point;
+          const location = childS2napshot.val().location;
+          var rate = childSnapshot.val().rate;
+          const review = childSnapshot.val().review;
+          const lat = childS2napshot.val().location_latitude;
+          const long = childS2napshot.val().location_longitude;
+
+          if (rate != 0) rate = rate / review;
+          if (
+            searchFilterTo == priceF &&
+            searchFilterFrom == priceT &&
+            location == locationFilter
+          ) {
+            // create rating with stars icon
+            let rateing = `<div class="ratings">`;
+            let temp = ``;
+            if (rate % 1 != 0) {
+              temp = `<i class="ion-ios-star-half"></i>`;
+            }
+            for (let i = 0; i < Math.trunc(rate); i++) {
+              rateing += `<i class="ion-ios-star"></i>`;
+            }
+            rateing += temp + `</div>`;
+
+            listing += `
+            <div class="row trending-place-item" onclick='collapsible(contentListing${numOfListings})'>
+            <div class="col-md-6 no-pad-lr">
+                <div class="trending-title-box">
+                    <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${true}"">${title}</a></h4>
+                    <div class="customer-review">
+                        <div class="rating-summary float-left">
+                        ${rateing}
+                        </div>
+                        <div class="review-summury float-right">
+                            <p><a>${review} Reviews</a></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="contentListing${numOfListings}" style="display:none">
+                      <ul class="trending-address">
+                          <li>
+                              <p>${location}</p>
+                          </li>
+                          <li>
+                              <p>${phone}</p>
+                          </li>
+                          <li>
+                              <p>${email}</p>
+                          </li>
+                          <li>
+                            <p> from: ${priceF}</p>
+                          </li>
+                          <li>
+                          <p> to: ${priceT}</p>
+                        </li>
+                          <li>
+                          <p>${description}</p>
+                      </li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+            markers += `
+          {
+            "type_point": "${title}",
+            "location_latitude": "${lat}",
+            "location_longitude": "${long}",
+            "map_image_url": "../images/marker.png",
+            "rate": "${rate}",
+            "review": "${review} reviews",
+            "phone": "${phone}",
+            "priceF":"${priceF}",
+            "priceT":"${priceT}",
+            "description": "${description}"
+          },
+        `;
+            console.log(listing);
+          }
+        }
+      });
+    });
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    $("#list-view").append(listing);
+    $("#num_of_listing").append(numOfListingsStr);
+    // markers = JSON.parse(markers);
+    // console.log(markers);
+
+    let lastIndex = markers.lastIndexOf("},");
+    if (lastIndex !== -1) {
+      markers = markers.substring(0, lastIndex) + "}";
+    }
+    markers += `
+  ]`;
+    initMap(markers);
+  });
+}
+
+function applySearchFromAndTo() {
+  let numOfListings = 0;
+  const listingsRef = firebase.database().ref("listings");
+  listingsRef.once("value").then((snapshot) => {
+    let listing = ``;
+    let markers = `[`;
+    snapshot.forEach((childSnapshot) => {
+      const userId = childSnapshot.val().userUid;
+      childSnapshot.forEach((childS2napshot) => {
+        const childData = childS2napshot.val();
+        if (typeof childData == "object") {
+          numOfListings++;
+          const email = childS2napshot.val().email;
+          const phone = childS2napshot.val().phone;
+          const priceF = childS2napshot.val().price_from;
+          const priceT = childS2napshot.val().price_to;
+          const description = childS2napshot.val().description;
+          const title = childS2napshot.val().type_point;
+          const location = childS2napshot.val().location;
+          var rate = childSnapshot.val().rate;
+          const review = childSnapshot.val().review;
+          const lat = childS2napshot.val().location_latitude;
+          const long = childS2napshot.val().location_longitude;
+
+          if (rate != 0) rate = rate / review;
+          if (searchFilterTo == priceF && searchFilterFrom == priceT) {
+            // create rating with stars icon
+            let rateing = `<div class="ratings">`;
+            let temp = ``;
+            if (rate % 1 != 0) {
+              temp = `<i class="ion-ios-star-half"></i>`;
+            }
+            for (let i = 0; i < Math.trunc(rate); i++) {
+              rateing += `<i class="ion-ios-star"></i>`;
+            }
+            rateing += temp + `</div>`;
+
+            listing += `
+            <div class="row trending-place-item" onclick='collapsible(contentListing${numOfListings})'>
+            <div class="col-md-6 no-pad-lr">
+                <div class="trending-title-box">
+                    <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${true}"">${title}</a></h4>
+                    <div class="customer-review">
+                        <div class="rating-summary float-left">
+                        ${rateing}
+                        </div>
+                        <div class="review-summury float-right">
+                            <p><a>${review} Reviews</a></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="contentListing${numOfListings}" style="display:none">
+                      <ul class="trending-address">
+                          <li>
+                              <p>${location}</p>
+                          </li>
+                          <li>
+                              <p>${phone}</p>
+                          </li>
+                          <li>
+                              <p>${email}</p>
+                          </li>
+                          <li>
+                            <p> from: ${priceF}</p>
+                          </li>
+                          <li>
+                          <p> to: ${priceT}</p>
+                        </li>
+                          <li>
+                          <p>${description}</p>
+                      </li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+            markers += `
+          {
+            "type_point": "${title}",
+            "location_latitude": "${lat}",
+            "location_longitude": "${long}",
+            "map_image_url": "../images/marker.png",
+            "rate": "${rate}",
+            "review": "${review} reviews",
+            "phone": "${phone}",
+            "priceF":"${priceF}",
+            "priceT":"${priceT}",
+            "description": "${description}"
+          },
+        `;
+            console.log(listing);
+          }
+        }
+      });
+    });
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    $("#list-view").append(listing);
+    $("#num_of_listing").append(numOfListingsStr);
+    // markers = JSON.parse(markers);
+    // console.log(markers);
+
+    let lastIndex = markers.lastIndexOf("},");
+    if (lastIndex !== -1) {
+      markers = markers.substring(0, lastIndex) + "}";
+    }
+    markers += `
+  ]`;
+    initMap(markers);
+  });
+}
+
+function applySearchOnlyTo() {
+  let numOfListings = 0;
+  const listingsRef = firebase.database().ref("listings");
+  listingsRef.once("value").then((snapshot) => {
+    let listing = ``;
+    let markers = `[`;
+    snapshot.forEach((childSnapshot) => {
+      const userId = childSnapshot.val().userUid;
+      childSnapshot.forEach((childS2napshot) => {
+        const childData = childS2napshot.val();
+        if (typeof childData == "object") {
+          numOfListings++;
+          const email = childS2napshot.val().email;
+          const phone = childS2napshot.val().phone;
+          const priceF = childS2napshot.val().price_from;
+          const priceT = childS2napshot.val().price_to;
+          const description = childS2napshot.val().description;
+          const title = childS2napshot.val().type_point;
+          const location = childS2napshot.val().location;
+          var rate = childSnapshot.val().rate;
+          const review = childSnapshot.val().review;
+          const lat = childS2napshot.val().location_latitude;
+          const long = childS2napshot.val().location_longitude;
+
+          if (rate != 0) rate = rate / review;
+          if (searchFilterTo == priceF) {
+            // create rating with stars icon
+            let rateing = `<div class="ratings">`;
+            let temp = ``;
+            if (rate % 1 != 0) {
+              temp = `<i class="ion-ios-star-half"></i>`;
+            }
+            for (let i = 0; i < Math.trunc(rate); i++) {
+              rateing += `<i class="ion-ios-star"></i>`;
+            }
+            rateing += temp + `</div>`;
+
+            listing += `
+            <div class="row trending-place-item" onclick='collapsible(contentListing${numOfListings})'>
+            <div class="col-md-6 no-pad-lr">
+                <div class="trending-title-box">
+                    <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${true}"">${title}</a></h4>
+                    <div class="customer-review">
+                        <div class="rating-summary float-left">
+                        ${rateing}
+                        </div>
+                        <div class="review-summury float-right">
+                            <p><a>${review} Reviews</a></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="contentListing${numOfListings}" style="display:none">
+                      <ul class="trending-address">
+                          <li>
+                              <p>${location}</p>
+                          </li>
+                          <li>
+                              <p>${phone}</p>
+                          </li>
+                          <li>
+                              <p>${email}</p>
+                          </li>
+                          <li>
+                            <p> from: ${priceF}</p>
+                          </li>
+                          <li>
+                          <p> to: ${priceT}</p>
+                        </li>
+                          <li>
+                          <p>${description}</p>
+                      </li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+            markers += `
+          {
+            "type_point": "${title}",
+            "location_latitude": "${lat}",
+            "location_longitude": "${long}",
+            "map_image_url": "../images/marker.png",
+            "rate": "${rate}",
+            "review": "${review} reviews",
+            "phone": "${phone}",
+            "priceF":"${priceF}",
+            "priceT":"${priceT}",
+            "description": "${description}"
+          },
+        `;
+            console.log(listing);
+          }
+        }
+      });
+    });
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    $("#list-view").append(listing);
+    $("#num_of_listing").append(numOfListingsStr);
+    // markers = JSON.parse(markers);
+    // console.log(markers);
+
+    let lastIndex = markers.lastIndexOf("},");
+    if (lastIndex !== -1) {
+      markers = markers.substring(0, lastIndex) + "}";
+    }
+    markers += `
+  ]`;
+    initMap(markers);
+  });
+}
+
+function applySearchOnlyFrom() {
+  let numOfListings = 0;
+  const listingsRef = firebase.database().ref("listings");
+  listingsRef.once("value").then((snapshot) => {
+    let listing = ``;
+    let markers = `[`;
+    snapshot.forEach((childSnapshot) => {
+      const userId = childSnapshot.val().userUid;
+      childSnapshot.forEach((childS2napshot) => {
+        const childData = childS2napshot.val();
+        if (typeof childData == "object") {
+          numOfListings++;
+          const email = childS2napshot.val().email;
+          const phone = childS2napshot.val().phone;
+          const priceF = childS2napshot.val().price_from;
+          const priceT = childS2napshot.val().price_to;
+          const description = childS2napshot.val().description;
+          const title = childS2napshot.val().type_point;
+          const location = childS2napshot.val().location;
+          var rate = childSnapshot.val().rate;
+          const review = childSnapshot.val().review;
+          const lat = childS2napshot.val().location_latitude;
+          const long = childS2napshot.val().location_longitude;
+
+          if (rate != 0) rate = rate / review;
+          if (searchFilterFrom == priceT) {
+            // create rating with stars icon
+            let rateing = `<div class="ratings">`;
+            let temp = ``;
+            if (rate % 1 != 0) {
+              temp = `<i class="ion-ios-star-half"></i>`;
+            }
+            for (let i = 0; i < Math.trunc(rate); i++) {
+              rateing += `<i class="ion-ios-star"></i>`;
+            }
+            rateing += temp + `</div>`;
+
+            listing += `
+            <div class="row trending-place-item" onclick='collapsible(contentListing${numOfListings})'>
+            <div class="col-md-6 no-pad-lr">
+                <div class="trending-title-box">
+                    <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${true}"">${title}</a></h4>
+                    <div class="customer-review">
+                        <div class="rating-summary float-left">
+                        ${rateing}
+                        </div>
+                        <div class="review-summury float-right">
+                            <p><a>${review} Reviews</a></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="contentListing${numOfListings}" style="display:none">
+                      <ul class="trending-address">
+                          <li>
+                              <p>${location}</p>
+                          </li>
+                          <li>
+                              <p>${phone}</p>
+                          </li>
+                          <li>
+                              <p>${email}</p>
+                          </li>
+                          <li>
+                            <p> from: ${priceF}</p>
+                          </li>
+                          <li>
+                          <p> to: ${priceT}</p>
+                        </li>
+                          <li>
+                          <p>${description}</p>
+                      </li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+            markers += `
+          {
+            "type_point": "${title}",
+            "location_latitude": "${lat}",
+            "location_longitude": "${long}",
+            "map_image_url": "../images/marker.png",
+            "rate": "${rate}",
+            "review": "${review} reviews",
+            "phone": "${phone}",
+            "priceF":"${priceF}",
+            "priceT":"${priceT}",
+            "description": "${description}"
+          },
+        `;
+            console.log(listing);
+          }
+        }
+      });
+    });
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    $("#list-view").append(listing);
+    $("#num_of_listing").append(numOfListingsStr);
+    // markers = JSON.parse(markers);
+    // console.log(markers);
+
+    let lastIndex = markers.lastIndexOf("},");
+    if (lastIndex !== -1) {
+      markers = markers.substring(0, lastIndex) + "}";
+    }
+    markers += `
+  ]`;
+    initMap(markers);
+  });
 }
 
 function applySearchWithOnlyLocation() {
   let locationFilter = document.getElementById("location-filter").value;
+
+  let numOfListings = 0;
+  const listingsRef = firebase.database().ref("listings");
+  listingsRef.once("value").then((snapshot) => {
+    let listing = ``;
+    let markers = `[`;
+    snapshot.forEach((childSnapshot) => {
+      const userId = childSnapshot.val().userUid;
+      childSnapshot.forEach((childS2napshot) => {
+        const childData = childS2napshot.val();
+        if (typeof childData == "object") {
+          numOfListings++;
+          const email = childS2napshot.val().email;
+          const phone = childS2napshot.val().phone;
+          const priceF = childS2napshot.val().price_from;
+          const priceT = childS2napshot.val().price_to;
+          const description = childS2napshot.val().description;
+          const title = childS2napshot.val().type_point;
+          const location = childS2napshot.val().location;
+          var rate = childSnapshot.val().rate;
+          const review = childSnapshot.val().review;
+          const lat = childS2napshot.val().location_latitude;
+          const long = childS2napshot.val().location_longitude;
+
+          if (rate != 0) rate = rate / review;
+          if (location == locationFilter) {
+            // create rating with stars icon
+            let rateing = `<div class="ratings">`;
+            let temp = ``;
+            if (rate % 1 != 0) {
+              temp = `<i class="ion-ios-star-half"></i>`;
+            }
+            for (let i = 0; i < Math.trunc(rate); i++) {
+              rateing += `<i class="ion-ios-star"></i>`;
+            }
+            rateing += temp + `</div>`;
+
+            listing += `
+            <div class="row trending-place-item" onclick='collapsible(contentListing${numOfListings})'>
+            <div class="col-md-6 no-pad-lr">
+                <div class="trending-title-box">
+                    <h4><a class="chat" id="${userId}" value=${numOfListings} href="messages.html?U=${userId}&V=${true}"">${title}</a></h4>
+                    <div class="customer-review">
+                        <div class="rating-summary float-left">
+                        ${rateing}
+                        </div>
+                        <div class="review-summury float-right">
+                            <p><a>${review} Reviews</a></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="contentListing${numOfListings}" style="display:none">
+                      <ul class="trending-address">
+                          <li>
+                              <p>${location}</p>
+                          </li>
+                          <li>
+                              <p>${phone}</p>
+                          </li>
+                          <li>
+                              <p>${email}</p>
+                          </li>
+                          <li>
+                            <p> from: ${priceF}</p>
+                          </li>
+                          <li>
+                          <p> to: ${priceT}</p>
+                        </li>
+                          <li>
+                          <p>${description}</p>
+                      </li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+            markers += `
+          {
+            "type_point": "${title}",
+            "location_latitude": "${lat}",
+            "location_longitude": "${long}",
+            "map_image_url": "../images/marker.png",
+            "rate": "${rate}",
+            "review": "${review} reviews",
+            "phone": "${phone}",
+            "priceF":"${priceF}",
+            "priceT":"${priceT}",
+            "description": "${description}"
+          },
+        `;
+            console.log(listing);
+          }
+        }
+      });
+    });
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    $("#list-view").append(listing);
+    $("#num_of_listing").append(numOfListingsStr);
+    // markers = JSON.parse(markers);
+    // console.log(markers);
+
+    let lastIndex = markers.lastIndexOf("},");
+    if (lastIndex !== -1) {
+      markers = markers.substring(0, lastIndex) + "}";
+    }
+    markers += `
+  ]`;
+    initMap(markers);
+  });
 }
 
 /*----------------------------------------
