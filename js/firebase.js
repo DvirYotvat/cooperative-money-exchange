@@ -1788,6 +1788,51 @@ function updateScore(score) {
         .catch((error) => {
           console.error("Error getting current value:", error);
         });
+
+      const databaseRef3 = firebase.database().ref("users/" + uid + "/review");
+      // Get the current value
+      databaseRef3
+        .once("value")
+        .then((snapshot) => {
+          const currentValue = snapshot.val();
+          console.log("currentValue: " + currentValue);
+          // Perform any necessary updates to the value
+          let updatedValue = currentValue + 1;
+          // Update the value
+          databaseRef3
+            .set(updatedValue)
+            .then(() => {
+              console.log("Value updated successfully.");
+            })
+            .catch((error) => {
+              console.error("Error updating value:", error);
+            });
+        })
+        .catch((error) => {
+          console.error("Error getting current value:", error);
+        });
+
+      const databaseRef4 = firebase.database().ref("users/" + uid + "/rate");
+      // Get the current value
+      databaseRef4
+        .once("value")
+        .then((snapshot) => {
+          const currentValue = snapshot.val();
+          // Perform any necessary updates to the value
+          let updatedValue = currentValue + score;
+          // Update the value
+          databaseRef4
+            .set(updatedValue)
+            .then(() => {
+              console.log("Value updated successfully.");
+            })
+            .catch((error) => {
+              console.error("Error updating value:", error);
+            });
+        })
+        .catch((error) => {
+          console.error("Error getting current value:", error);
+        });
     }
   });
 }
