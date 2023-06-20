@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Metas -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="LionCoders" />
+    <!-- Links -->
+    <link rel="icon" type="image/png" href="#" />
+    <!-- google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link href="../css/plugin.css" rel="stylesheet" />
+    <!-- Perfect scrollbar CSS-->
+    <link href="../css/perfect-scrollbar.css" rel="stylesheet">
+    <!-- style CSS -->
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- Dashboard CSS -->
+    <link href="../css/dashboard.css" rel="stylesheet" />
+    <!--color switcher css-->
+    <link rel="stylesheet" href="css/switcher/skin-aqua.css" media="screen" id="style-colors" />
+    <!-- Document Title -->
+    <title>CCE - add listing</title>
+</head>
+
+<body onload="onloadAddListing()">
+    <!--Preloader starts-->
+    <div class="preloader js-preloader">
+        <img src="../images/preloader.gif" alt="...">
+    </div>
+    <div class="page-wrapper">
+        <!--Sidebar Menu Starts-->
+        <aside class="menu-sidebar js-right-sidebar d-block d-lg-none">
+            <div class="logo">
+                <a href="#">
+                    <img src="../images/logo.png" alt="Listagram" />
+                </a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar2">
+                <div class="account-img">
+                </div>
+                <div id="hi_user">
+                </div>
+                <nav class="navbar-sidebar2">
+                    <ul class="list-unstyled navbar__list">
+                        <li>
+                            <a href="messages.html">
+                                <i class="ion-ios-email-outline"></i>Inbox</a>
+                        </li>
+                        <li>
+                            <a href="add-listing.html">
+                                <i class="ion-ios-plus-outline"></i>Add Listings</a>
+                        </li>
+                        <li>
+                            <a href="my-profile.html">
+                                <i class="ion-ios-person-outline"></i>My profile</a>
+                        </li>
+                        <li>
+                            <a href="edit-profile.html">
+                                <i class="ion-edit"></i>Edit profile</a>
+                        </li>
+                        <li>
+                            <a onclick="logout()">
+                                <i class="ion-ios-upload-outline" onclick="logout()"></i>Logout</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!--Sidebar Menu ends-->
+
+        <!--Dashboard content Wrapper starts-->
+        <div class="dash-content-wrap">
+            <!-- Top header starts-->
+            <header class="db-top-header">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-9 col-sm-6 col-4">
+                            <div class="site-navbar-wrap v2">
+                                <div class="site-navbar">
+                                    <div class="row align-items-center">
+                                        <nav class="site-navigation float-left">
+                                            <div class="container">
+                                                <ul class="site-menu js-clone-nav d-none d-lg-block">
+                                                    <li class="has-children">
+                                                    <li><a href="home.html">Home</a></li>
+                                                    </li>
+                                                    <li class="has-children">
+                                                        <a href="#">Pages</a>
+                                                        <ul class="dropdown">
+                                                            <li><a href="add-listing.html">Add Listing</a></li>
+                                                            <li><a href="../index.html">Login</a></li>
+                                                            <li><a href="user-profile.html">User profile</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="has-children">
+                                                        <a href="#">User Panel</a>
+                                                        <ul class="dropdown">
+                                                            <li><a href="messages.html">Inbox</a></li>
+                                                            <li><a href="my-profile.html">User Profile</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="d-lg-none"><a class="btn v1" href="add-listing.html">Add
+                                                            Listing <i class="ion-plus-round"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </nav>
+                                        <div class="d-lg-none sm-right">
+                                            <a href="#" class="mobile-bar js-menu-toggle">
+                                                <span class="ion-android-menu"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="site-mobile-menu">
+                                    <div class="site-mobile-menu-header">
+                                        <div class="site-mobile-menu-close  js-menu-toggle">
+                                            <span class="ion-ios-close-empty"></span>
+                                        </div>
+                                    </div>
+                                    <div class="site-mobile-menu-body"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Top header ends-->
+
+            <!--Dashboard breadcrumb starts-->
+            <div class="dash-breadcrumb">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="dash-breadcrumb-content">
+                                <div class="dash-breadcrumb-left">
+                                    <div class="breadcrumb-menu text-right sm-left">
+                                        <ul>
+                                            <li class="active"><a href="home.html">Home</a></li>
+                                            <li>add listing</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <a class="btn v3" href="add-listing.html"><i class="ion-plus-round"></i>Add Listing </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Dashboard breadcrumb ends-->
+            <!--Add Listing starts-->
+            <div class="list-details-section section-padding add_list pad-top-90">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs list-details-tab">
+                                <li class="nav-item active">
+                                    <a data-toggle="tab" href="#general_info">General Information</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" href="#Pricing">Pricing</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mar-tb-30 add_list_content">
+                                <div class="tab-pane fade show active" id="general_info">
+                                    <h4> <i class="ion-ios-information"></i> General Information :</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Listing Title</label>
+                                                <input type="text" class="form-control filter-input" id="listingTitle"
+                                                    placeholder="Listing Title" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Address</label>
+                                                <input type="text" class="form-control filter-input" id="address"
+                                                    placeholder="Address" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mar-top-15">
+                                                <label>Phone </label>
+                                                <input type="text" class="form-control filter-input"
+                                                    id="add_listing_phone" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 no-padding">
+                                            <div id="map"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="Pricing">
+                                    <h4><i class="ion-ios-location"></i> Pricing :</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>from currency</label>
+                                                <input type="text" class="form-control filter-input" id="priceFrom"
+                                                    placeholder="10..." required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>to currency</label>
+                                                <input type="text" class="form-control filter-input" id="priceTo"
+                                                    placeholder="180..." required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <button class="form-control filter-input" id="search-filter-from"
+                                                name="search-bar"
+                                                onclick="showDropdownCurrency('fromCoinDropDown')">from coin
+                                                type...</button>
+                                            <div class="dropdown">
+                                                <div id="fromCoinDropDown" class="dropdown-content" value="temp">
+                                                    <input type="text" value="temp" placeholder="Search.."
+                                                        id="inputFrom"
+                                                        onkeyup="filterFunction('fromCoinDropDown', 'inputFrom')">
+                                                    <a>select currency</a>
+                                                    <a
+                                                        onclick="selectCourency('AFN', 'fromCoinDropDown', this.innerText)">Afghan
+                                                        Afghani</a>
+                                                    <a
+                                                        onclick="selectCourency('ALL', 'fromCoinDropDown', this.innerText)">Albanian
+                                                        Lek</a>
+                                                    <a
+                                                        onclick="selectCourency('DZD', 'fromCoinDropDown', this.innerText)">Algerian
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('AOA', 'fromCoinDropDown', this.innerText)">Angolan
+                                                        Kwanza</a>
+                                                    <a
+                                                        onclick="selectCourency('ARS', 'fromCoinDropDown', this.innerText)">Argentine
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('AMD', 'fromCoinDropDown', this.innerText)">Armenian
+                                                        Dram</a>
+                                                    <a
+                                                        onclick="selectCourency('AWG', 'fromCoinDropDown', this.innerText)">Aruban
+                                                        Florin</a>
+                                                    <a
+                                                        onclick="selectCourency('AUD', 'fromCoinDropDown', this.innerText)">Australian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('AZN', 'fromCoinDropDown', this.innerText)">Azerbaijani
+                                                        Manat</a>
+                                                    <a
+                                                        onclick="selectCourency('BSD', 'fromCoinDropDown', this.innerText)">Bahamian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BHD', 'fromCoinDropDown', this.innerText)">Bahraini
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('BDT', 'fromCoinDropDown', this.innerText)">Bangladeshi
+                                                        Taka</a>
+                                                    <a
+                                                        onclick="selectCourency('BBD', 'fromCoinDropDown', this.innerText)">Barbadian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BYR', 'fromCoinDropDown', this.innerText)">Belarusian
+                                                        Ruble</a>
+                                                    <a
+                                                        onclick="selectCourency('BEF', 'fromCoinDropDown', this.innerText)">Belgian
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('BZD', 'fromCoinDropDown', this.innerText)">Belize
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BMD', 'fromCoinDropDown', this.innerText)">Bermudan
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BTN', 'fromCoinDropDown', this.innerText)">Bhutanese
+                                                        Ngultrum</a>
+                                                    <a
+                                                        onclick="selectCourency('BTC', 'fromCoinDropDown', this.innerText)">Bitcoin</a>
+                                                    <a
+                                                        onclick="selectCourency('BOB', 'fromCoinDropDown', this.innerText)">Bolivian
+                                                        Boliviano</a>
+                                                    <a
+                                                        onclick="selectCourency('BAM', 'fromCoinDropDown', this.innerText)">Bosnia-Herzegovina
+                                                        Convertible Mark</a>
+                                                    <a
+                                                        onclick="selectCourency('BWP', 'fromCoinDropDown', this.innerText)">Botswanan
+                                                        Pula</a>
+                                                    <a
+                                                        onclick="selectCourency('BRL', 'fromCoinDropDown', this.innerText)">Brazilian
+                                                        Real</a>
+                                                    <a
+                                                        onclick="selectCourency('GBP', 'fromCoinDropDown', this.innerText)">British
+                                                        Pound
+                                                        Sterling</a>
+                                                    <a
+                                                        onclick="selectCourency('BND', 'fromCoinDropDown', this.innerText)">Brunei
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BGN', 'fromCoinDropDown', this.innerText)">Bulgarian
+                                                        Lev</a>
+                                                    <a
+                                                        onclick="selectCourency('BIF', 'fromCoinDropDown', this.innerText)">Burundian
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('KHR', 'fromCoinDropDown', this.innerText)">Cambodian
+                                                        Riel</a>
+                                                    <a
+                                                        onclick="selectCourency('CAD', 'fromCoinDropDown', this.innerText)">Canadian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('CVE', 'fromCoinDropDown', this.innerText)">Cape
+                                                        Verdean
+                                                        Escudo</a>
+                                                    <a
+                                                        onclick="selectCourency('KYD', 'fromCoinDropDown', this.innerText)">Cayman
+                                                        Islands
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('XOF', 'fromCoinDropDown', this.innerText)">CFA
+                                                        Franc BCEAO</a>
+                                                    <a
+                                                        onclick="selectCourency('XAF', 'fromCoinDropDown', this.innerText)">CFA
+                                                        Franc BEAC</a>
+                                                    <a
+                                                        onclick="selectCourency('XPF', 'fromCoinDropDown', this.innerText)">CFP
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('CLP', 'fromCoinDropDown', this.innerText)">Chilean
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('CNY', 'fromCoinDropDown', this.innerText)">Chinese
+                                                        Yuan</a>
+                                                    <a
+                                                        onclick="selectCourency('COP', 'fromCoinDropDown', this.innerText)">Colombian
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('KMF', 'fromCoinDropDown', this.innerText)">Comorian
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('CDF', 'fromCoinDropDown', this.innerText)">Congolese
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('CRC', 'fromCoinDropDown', this.innerText)">Costa
+                                                        Rican
+                                                        ColÃ³n</a>
+                                                    <a
+                                                        onclick="selectCourency('HRK', 'fromCoinDropDown', this.innerText)">Croatian
+                                                        Kuna</a>
+                                                    <a
+                                                        onclick="selectCourency('CUC', 'fromCoinDropDown', this.innerText)">Cuban
+                                                        Convertible
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('CZK', 'fromCoinDropDown', this.innerText)">Czech
+                                                        Republic
+                                                        Koruna</a>
+                                                    <a
+                                                        onclick="selectCourency('DKK', 'fromCoinDropDown', this.innerText)">Danish
+                                                        Krone</a>
+                                                    <a
+                                                        onclick="selectCourency('DJF', 'fromCoinDropDown', this.innerText)">Djiboutian
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('DOP', 'fromCoinDropDown', this.innerText)">Dominican
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('XCD', 'fromCoinDropDown', this.innerText)">East
+                                                        Caribbean
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('EGP', 'fromCoinDropDown', this.innerText)">Egyptian
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('ERN', 'fromCoinDropDown', this.innerText)">Eritrean
+                                                        Nakfa</a>
+                                                    <a
+                                                        onclick="selectCourency('EEK', 'fromCoinDropDown', this.innerText)">Estonian
+                                                        Kroon</a>
+                                                    <a
+                                                        onclick="selectCourency('ETB', 'fromCoinDropDown', this.innerText)">Ethiopian
+                                                        Birr</a>
+                                                    <a
+                                                        onclick="selectCourency('EUR', 'fromCoinDropDown', this.innerText)">Euro</a>
+                                                    <a
+                                                        onclick="selectCourency('FKP', 'fromCoinDropDown', this.innerText)">Falkland
+                                                        Islands
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('FJD', 'fromCoinDropDown', this.innerText)">Fijian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('GMD', 'fromCoinDropDown', this.innerText)">Gambian
+                                                        Dalasi</a>
+                                                    <a
+                                                        onclick="selectCourency('GEL', 'fromCoinDropDown', this.innerText)">Georgian
+                                                        Lari</a>
+                                                    <a
+                                                        onclick="selectCourency('DEM', 'fromCoinDropDown', this.innerText)">German
+                                                        Mark</a>
+                                                    <a
+                                                        onclick="selectCourency('GHS', 'fromCoinDropDown', this.innerText)">Ghanaian
+                                                        Cedi</a>
+                                                    <a
+                                                        onclick="selectCourency('GIP', 'fromCoinDropDown', this.innerText)">Gibraltar
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('GRD', 'fromCoinDropDown', this.innerText)">Greek
+                                                        Drachma</a>
+                                                    <a
+                                                        onclick="selectCourency('GTQ', 'fromCoinDropDown', this.innerText)">Guatemalan
+                                                        Quetzal</a>
+                                                    <a
+                                                        onclick="selectCourency('GNF', 'fromCoinDropDown', this.innerText)">Guinean
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('GYD', 'fromCoinDropDown', this.innerText)">Guyanaese
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('HTG', 'fromCoinDropDown', this.innerText)">Haitian
+                                                        Gourde</a>
+                                                    <a
+                                                        onclick="selectCourency('HNL', 'fromCoinDropDown', this.innerText)">Honduran
+                                                        Lempira</a>
+                                                    <a
+                                                        onclick="selectCourency('HKD', 'fromCoinDropDown', this.innerText)">Hong
+                                                        Kong Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('HUF', 'fromCoinDropDown', this.innerText)">Hungarian
+                                                        Forint</a>
+                                                    <a
+                                                        onclick="selectCourency('ISK', 'fromCoinDropDown', this.innerText)">Icelandic
+                                                        KrÃ³na</a>
+                                                    <a
+                                                        onclick="selectCourency('INR', 'fromCoinDropDown', this.innerText)">Indian
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('IDR', 'fromCoinDropDown', this.innerText)">Indonesian
+                                                        Rupiah</a>
+                                                    <a
+                                                        onclick="selectCourency('IRR', 'fromCoinDropDown', this.innerText)">Iranian
+                                                        Rial</a>
+                                                    <a
+                                                        onclick="selectCourency('IQD', 'fromCoinDropDown', this.innerText)">Iraqi
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('ILS', 'fromCoinDropDown', this.innerText)">Israeli
+                                                        New
+                                                        Sheqel</a>
+                                                    <a
+                                                        onclick="selectCourency('ITL', 'fromCoinDropDown', this.innerText)">Italian
+                                                        Lira</a>
+                                                    <a
+                                                        onclick="selectCourency('JMD', 'fromCoinDropDown', this.innerText)">Jamaican
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('JPY', 'fromCoinDropDown', this.innerText)">Japanese
+                                                        Yen</a>
+                                                    <a
+                                                        onclick="selectCourency('JOD', 'fromCoinDropDown', this.innerText)">Jordanian
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('KZT', 'fromCoinDropDown', this.innerText)">Kazakhstani
+                                                        Tenge</a>
+                                                    <a
+                                                        onclick="selectCourency('KES', 'fromCoinDropDown', this.innerText)">Kenyan
+                                                        Shilling</a>
+                                                    <a
+                                                        onclick="selectCourency('KWD', 'fromCoinDropDown', this.innerText)">Kuwaiti
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('KGS', 'fromCoinDropDown', this.innerText)">Kyrgystani
+                                                        Som</a>
+                                                    <a
+                                                        onclick="selectCourency('LAK', 'fromCoinDropDown', this.innerText)">Laotian
+                                                        Kip</a>
+                                                    <a
+                                                        onclick="selectCourency('LVL', 'fromCoinDropDown', this.innerText)">Latvian
+                                                        Lats</a>
+                                                    <a
+                                                        onclick="selectCourency('LBP', 'fromCoinDropDown', this.innerText)">Lebanese
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('LSL', 'fromCoinDropDown', this.innerText)">Lesotho
+                                                        Loti</a>
+                                                    <a
+                                                        onclick="selectCourency('LRD', 'fromCoinDropDown', this.innerText)">Liberian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('LYD', 'fromCoinDropDown', this.innerText)">Libyan
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('LTL', 'fromCoinDropDown', this.innerText)">Lithuanian
+                                                        Litas</a>
+                                                    <a
+                                                        onclick="selectCourency('MOP', 'fromCoinDropDown', this.innerText)">Macanese
+                                                        Pataca</a>
+                                                    <a
+                                                        onclick="selectCourency('MKD', 'fromCoinDropDown', this.innerText)">Macedonian
+                                                        Denar</a>
+                                                    <a
+                                                        onclick="selectCourency('MGA', 'fromCoinDropDown', this.innerText)">Malagasy
+                                                        Ariary</a>
+                                                    <a
+                                                        onclick="selectCourency('MWK', 'fromCoinDropDown', this.innerText)">Malawian
+                                                        Kwacha</a>
+                                                    <a
+                                                        onclick="selectCourency('MYR', 'fromCoinDropDown', this.innerText)">Malaysian
+                                                        Ringgit</a>
+                                                    <a
+                                                        onclick="selectCourency('MVR', 'fromCoinDropDown', this.innerText)">Maldivian
+                                                        Rufiyaa</a>
+                                                    <a
+                                                        onclick="selectCourency('MRO', 'fromCoinDropDown', this.innerText)">Mauritanian
+                                                        Ouguiya</a>
+                                                    <a
+                                                        onclick="selectCourency('MUR', 'fromCoinDropDown', this.innerText)">Mauritian
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('MXN', 'fromCoinDropDown', this.innerText)">Mexican
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('MDL', 'fromCoinDropDown', this.innerText)">Moldovan
+                                                        Leu</a>
+                                                    <a
+                                                        onclick="selectCourency('MNT', 'fromCoinDropDown', this.innerText)">Mongolian
+                                                        Tugrik</a>
+                                                    <a
+                                                        onclick="selectCourency('MAD', 'fromCoinDropDown', this.innerText)">Moroccan
+                                                        Dirham</a>
+                                                    <a
+                                                        onclick="selectCourency('MZM', 'fromCoinDropDown', this.innerText)">Mozambican
+                                                        Metical</a>
+                                                    <a
+                                                        onclick="selectCourency('MMK', 'fromCoinDropDown', this.innerText)">Myanmar
+                                                        Kyat</a>
+                                                    <a
+                                                        onclick="selectCourency('NAD', 'fromCoinDropDown', this.innerText)">Namibian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('NPR', 'fromCoinDropDown', this.innerText)">Nepalese
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('ANG', 'fromCoinDropDown', this.innerText)">Netherlands
+                                                        Antillean
+                                                        Guilder</a>
+                                                    <a
+                                                        onclick="selectCourency('TWD', 'fromCoinDropDown', this.innerText)">New
+                                                        Taiwan Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('NZD', 'fromCoinDropDown', this.innerText)">New
+                                                        Zealand
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('NIO', 'fromCoinDropDown', this.innerText)">Nicaraguan
+                                                        CÃ³rdoba</a>
+                                                    <a
+                                                        onclick="selectCourency('NGN', 'fromCoinDropDown', this.innerText)">Nigerian
+                                                        Naira</a>
+                                                    <a
+                                                        onclick="selectCourency('KPW', 'fromCoinDropDown', this.innerText)">North
+                                                        Korean Won</a>
+                                                    <a
+                                                        onclick="selectCourency('NOK', 'fromCoinDropDown', this.innerText)">Norwegian
+                                                        Krone</a>
+                                                    <a
+                                                        onclick="selectCourency('OMR', 'fromCoinDropDown', this.innerText)">Omani
+                                                        Rial</a>
+                                                    <a
+                                                        onclick="selectCourency('PKR', 'fromCoinDropDown', this.innerText)">Pakistani
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('PAB', 'fromCoinDropDown', this.innerText)">Panamanian
+                                                        Balboa</a>
+                                                    <a
+                                                        onclick="selectCourency('PGK', 'fromCoinDropDown', this.innerText)">Papua
+                                                        New Guinean
+                                                        Kina</a>
+                                                    <a
+                                                        onclick="selectCourency('PYG', 'fromCoinDropDown', this.innerText)">Paraguayan
+                                                        Guarani</a>
+                                                    <a
+                                                        onclick="selectCourency('PEN', 'fromCoinDropDown', this.innerText)">Peruvian
+                                                        Nuevo
+                                                        Sol</a>
+                                                    <a
+                                                        onclick="selectCourency('PHP', 'fromCoinDropDown', this.innerText)">Philippine
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('PLN', 'fromCoinDropDown', this.innerText)">Polish
+                                                        Zloty</a>
+                                                    <a
+                                                        onclick="selectCourency('QAR', 'fromCoinDropDown', this.innerText)">Qatari
+                                                        Rial</a>
+                                                    <a
+                                                        onclick="selectCourency('RON', 'fromCoinDropDown', this.innerText)">Romanian
+                                                        Leu</a>
+                                                    <a
+                                                        onclick="selectCourency('RUB', 'fromCoinDropDown', this.innerText)">Russian
+                                                        Ruble</a>
+                                                    <a
+                                                        onclick="selectCourency('RWF', 'fromCoinDropDown', this.innerText)">Rwandan
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('SVC', 'fromCoinDropDown', this.innerText)">Salvadoran
+                                                        ColÃ³n</a>
+                                                    <a
+                                                        onclick="selectCourency('WST', 'fromCoinDropDown', this.innerText)">Samoan
+                                                        Tala</a>
+                                                    <a
+                                                        onclick="selectCourency('SAR', 'fromCoinDropDown', this.innerText)">Saudi
+                                                        Riyal</a>
+                                                    <a
+                                                        onclick="selectCourency('RSD', 'fromCoinDropDown', this.innerText)">Serbian
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('SCR', 'fromCoinDropDown', this.innerText)">Seychellois
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('SLL', 'fromCoinDropDown', this.innerText)">Sierra
+                                                        Leonean
+                                                        Leone</a>
+                                                    <a
+                                                        onclick="selectCourency('SGD', 'fromCoinDropDown', this.innerText)">Singapore
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('SKK', 'fromCoinDropDown', this.innerText)">Slovak
+                                                        Koruna</a>
+                                                    <a
+                                                        onclick="selectCourency('SBD', 'fromCoinDropDown', this.innerText)">Solomon
+                                                        Islands
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('SOS', 'fromCoinDropDown', this.innerText)">Somali
+                                                        Shilling</a>
+                                                    <a
+                                                        onclick="selectCourency('ZAR', 'fromCoinDropDown', this.innerText)">South
+                                                        African
+                                                        Rand</a>
+                                                    <a
+                                                        onclick="selectCourency('KRW', 'fromCoinDropDown', this.innerText)">South
+                                                        Korean Won</a>
+                                                    <a
+                                                        onclick="selectCourency('XDR', 'fromCoinDropDown', this.innerText)">Special
+                                                        Drawing
+                                                        Rights</a>
+                                                    <a
+                                                        onclick="selectCourency('LKR', 'fromCoinDropDown', this.innerText)">Sri
+                                                        Lankan Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('SHP', 'fromCoinDropDown', this.innerText)">St.
+                                                        Helena Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('SDG', 'fromCoinDropDown', this.innerText)">Sudanese
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('SRD', 'fromCoinDropDown', this.innerText)">Surinamese
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('SZL', 'fromCoinDropDown', this.innerText)">Swazi
+                                                        Lilangeni</a>
+                                                    <a
+                                                        onclick="selectCourency('SEK', 'fromCoinDropDown', this.innerText)">Swedish
+                                                        Krona</a>
+                                                    <a
+                                                        onclick="selectCourency('CHF', 'fromCoinDropDown', this.innerText)">Swiss
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('SYP', 'fromCoinDropDown', this.innerText)">Syrian
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('STD', 'fromCoinDropDown', this.innerText)">São
+                                                        Tomé and Príncipe
+                                                        Dobra</a>
+                                                    <a
+                                                        onclick="selectCourency('TJS', 'fromCoinDropDown', this.innerText)">Tajikistani
+                                                        Somoni</a>
+                                                    <a
+                                                        onclick="selectCourency('TZS', 'fromCoinDropDown', this.innerText)">Tanzanian
+                                                        Shilling</a>
+                                                    <a
+                                                        onclick="selectCourency('THB', 'fromCoinDropDown', this.innerText)">Thai
+                                                        Baht</a>
+                                                    <a
+                                                        onclick="selectCourency('TOP', 'fromCoinDropDown', this.innerText)">Tongan
+                                                        pa'anga</a>
+                                                    <a
+                                                        onclick="selectCourency('TTD', 'fromCoinDropDown', this.innerText)">Trinidad
+                                                        & Tobago
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('TND', 'fromCoinDropDown', this.innerText)">Tunisian
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('TRY', 'fromCoinDropDown', this.innerText)">Turkish
+                                                        Lira</a>
+                                                    <a
+                                                        onclick="selectCourency('TMT', 'fromCoinDropDown', this.innerText)">Turkmenistani
+                                                        Manat</a>
+                                                    <a
+                                                        onclick="selectCourency('UGX', 'fromCoinDropDown', this.innerText)">Ugandan
+                                                        Shilling</a>
+                                                    <a
+                                                        onclick="selectCourency('UAH', 'fromCoinDropDown', this.innerText)">Ukrainian
+                                                        Hryvnia</a>
+                                                    <a
+                                                        onclick="selectCourency('AED', 'fromCoinDropDown', this.innerText)">United
+                                                        Arab Emirates
+                                                        Dirham</a>
+                                                    <a
+                                                        onclick="selectCourency('UYU', 'fromCoinDropDown', this.innerText)">Uruguayan
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('USD', 'fromCoinDropDown', this.innerText)">US
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('UZS', 'fromCoinDropDown', this.innerText)">Uzbekistan
+                                                        Som</a>
+                                                    <a
+                                                        onclick="selectCourency('VUV', 'fromCoinDropDown', this.innerText)">Vanuatu
+                                                        Vatu</a>
+                                                    <a
+                                                        onclick="selectCourency('VEF', 'fromCoinDropDown', this.innerText)">Venezuelan
+                                                        BolÃ­var</a>
+                                                    <a
+                                                        onclick="selectCourency('VND', 'fromCoinDropDown', this.innerText)">Vietnamese
+                                                        Dong</a>
+                                                    <a
+                                                        onclick="selectCourency('YER', 'fromCoinDropDown', this.innerText)">Yemeni
+                                                        Rial</a>
+                                                    <a
+                                                        onclick="selectCourency('ZMK', 'fromCoinDropDown', this.innerText)">Zambian
+                                                        Kwacha</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <button class="form-control filter-input" id="search-filter-to"
+                                                name="search-bar" onclick="showDropdownCurrency('toCoinDropDown')">to
+                                                coin
+                                                type...</button>
+                                            <div class="dropdown">
+                                                <div id="toCoinDropDown" class="dropdown-content">
+                                                    <input type="text" value="" placeholder="Search.." id="inputTo"
+                                                        onkeyup="filterFunction('toCoinDropDown', 'inputTo')">
+                                                    <a>select currency</a>
+                                                    <a onclick="selectCourency('AFN', 'toCoinDropDown')" ,
+                                                        this.innerText>Afghan Afghani</a>
+                                                    <a
+                                                        onclick="selectCourency('AFN', 'toCoinDropDown', this.innerText)">Afghan
+                                                        Afghani</a>
+                                                    <a
+                                                        onclick="selectCourency('ALL', 'toCoinDropDown', this.innerText)">Albanian
+                                                        Lek</a>
+                                                    <a
+                                                        onclick="selectCourency('DZD', 'toCoinDropDown', this.innerText)">Algerian
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('AOA', 'toCoinDropDown', this.innerText)">Angolan
+                                                        Kwanza</a>
+                                                    <a
+                                                        onclick="selectCourency('ARS', 'toCoinDropDown', this.innerText)">Argentine
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('AMD', 'toCoinDropDown', this.innerText)">Armenian
+                                                        Dram</a>
+                                                    <a
+                                                        onclick="selectCourency('AWG', 'toCoinDropDown', this.innerText)">Aruban
+                                                        Florin</a>
+                                                    <a
+                                                        onclick="selectCourency('AUD', 'toCoinDropDown', this.innerText)">Australian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('AZN', 'toCoinDropDown', this.innerText)">Azerbaijani
+                                                        Manat</a>
+                                                    <a
+                                                        onclick="selectCourency('BSD', 'toCoinDropDown', this.innerText)">Bahamian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BHD', 'toCoinDropDown', this.innerText)">Bahraini
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('BDT', 'toCoinDropDown', this.innerText)">Bangladeshi
+                                                        Taka</a>
+                                                    <a
+                                                        onclick="selectCourency('BBD', 'toCoinDropDown', this.innerText)">Barbadian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BYR', 'toCoinDropDown', this.innerText)">Belarusian
+                                                        Ruble</a>
+                                                    <a
+                                                        onclick="selectCourency('BEF', 'toCoinDropDown', this.innerText)">Belgian
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('BZD', 'toCoinDropDown', this.innerText)">Belize
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BMD', 'toCoinDropDown', this.innerText)">Bermudan
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BTN', 'toCoinDropDown', this.innerText)">Bhutanese
+                                                        Ngultrum</a>
+                                                    <a
+                                                        onclick="selectCourency('BTC', 'toCoinDropDown', this.innerText)">Bitcoin</a>
+                                                    <a
+                                                        onclick="selectCourency('BOB', 'toCoinDropDown', this.innerText)">Bolivian
+                                                        Boliviano</a>
+                                                    <a
+                                                        onclick="selectCourency('BAM', 'toCoinDropDown', this.innerText)">Bosnia-Herzegovina
+                                                        Convertible Mark</a>
+                                                    <a
+                                                        onclick="selectCourency('BWP', 'toCoinDropDown', this.innerText)">Botswanan
+                                                        Pula</a>
+                                                    <a
+                                                        onclick="selectCourency('BRL', 'toCoinDropDown', this.innerText)">Brazilian
+                                                        Real</a>
+                                                    <a
+                                                        onclick="selectCourency('GBP', 'toCoinDropDown', this.innerText)">British
+                                                        Pound
+                                                        Sterling</a>
+                                                    <a
+                                                        onclick="selectCourency('BND', 'toCoinDropDown', this.innerText)">Brunei
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('BGN', 'toCoinDropDown', this.innerText)">Bulgarian
+                                                        Lev</a>
+                                                    <a
+                                                        onclick="selectCourency('BIF', 'toCoinDropDown', this.innerText)">Burundian
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('KHR', 'toCoinDropDown', this.innerText)">Cambodian
+                                                        Riel</a>
+                                                    <a
+                                                        onclick="selectCourency('CAD', 'toCoinDropDown', this.innerText)">Canadian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('CVE', 'toCoinDropDown', this.innerText)">Cape
+                                                        Verdean Escudo</a>
+                                                    <a
+                                                        onclick="selectCourency('KYD', 'toCoinDropDown', this.innerText)">Cayman
+                                                        Islands
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('XOF', 'toCoinDropDown', this.innerText)">CFA
+                                                        Franc BCEAO</a>
+                                                    <a
+                                                        onclick="selectCourency('XAF', 'toCoinDropDown', this.innerText)">CFA
+                                                        Franc BEAC</a>
+                                                    <a
+                                                        onclick="selectCourency('XPF', 'toCoinDropDown', this.innerText)">CFP
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('CLP', 'toCoinDropDown', this.innerText)">Chilean
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('CNY', 'toCoinDropDown', this.innerText)">Chinese
+                                                        Yuan</a>
+                                                    <a
+                                                        onclick="selectCourency('COP', 'toCoinDropDown', this.innerText)">Colombian
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('KMF', 'toCoinDropDown', this.innerText)">Comorian
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('CDF', 'toCoinDropDown', this.innerText)">Congolese
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('CRC', 'toCoinDropDown', this.innerText)">Costa
+                                                        Rican ColÃ³n</a>
+                                                    <a
+                                                        onclick="selectCourency('HRK', 'toCoinDropDown', this.innerText)">Croatian
+                                                        Kuna</a>
+                                                    <a
+                                                        onclick="selectCourency('CUC', 'toCoinDropDown', this.innerText)">Cuban
+                                                        Convertible
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('CZK', 'toCoinDropDown', this.innerText)">Czech
+                                                        Republic
+                                                        Koruna</a>
+                                                    <a
+                                                        onclick="selectCourency('DKK', 'toCoinDropDown', this.innerText)">Danish
+                                                        Krone</a>
+                                                    <a
+                                                        onclick="selectCourency('DJF', 'toCoinDropDown', this.innerText)">Djiboutian
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('DOP', 'toCoinDropDown', this.innerText)">Dominican
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('XCD', 'toCoinDropDown', this.innerText)">East
+                                                        Caribbean
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('EGP', 'toCoinDropDown', this.innerText)">Egyptian
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('ERN', 'toCoinDropDown', this.innerText)">Eritrean
+                                                        Nakfa</a>
+                                                    <a
+                                                        onclick="selectCourency('EEK', 'toCoinDropDown', this.innerText)">Estonian
+                                                        Kroon</a>
+                                                    <a
+                                                        onclick="selectCourency('ETB', 'toCoinDropDown', this.innerText)">Ethiopian
+                                                        Birr</a>
+                                                    <a
+                                                        onclick="selectCourency('EUR', 'toCoinDropDown', this.innerText)">Euro</a>
+                                                    <a
+                                                        onclick="selectCourency('FKP', 'toCoinDropDown', this.innerText)">Falkland
+                                                        Islands
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('FJD', 'toCoinDropDown', this.innerText)">Fijian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('GMD', 'toCoinDropDown', this.innerText)">Gambian
+                                                        Dalasi</a>
+                                                    <a
+                                                        onclick="selectCourency('GEL', 'toCoinDropDown', this.innerText)">Georgian
+                                                        Lari</a>
+                                                    <a
+                                                        onclick="selectCourency('DEM', 'toCoinDropDown', this.innerText)">German
+                                                        Mark</a>
+                                                    <a
+                                                        onclick="selectCourency('GHS', 'toCoinDropDown', this.innerText)">Ghanaian
+                                                        Cedi</a>
+                                                    <a
+                                                        onclick="selectCourency('GIP', 'toCoinDropDown', this.innerText)">Gibraltar
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('GRD', 'toCoinDropDown', this.innerText)">Greek
+                                                        Drachma</a>
+                                                    <a
+                                                        onclick="selectCourency('GTQ', 'toCoinDropDown', this.innerText)">Guatemalan
+                                                        Quetzal</a>
+                                                    <a
+                                                        onclick="selectCourency('GNF', 'toCoinDropDown', this.innerText)">Guinean
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('GYD', 'toCoinDropDown', this.innerText)">Guyanaese
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('HTG', 'toCoinDropDown', this.innerText)">Haitian
+                                                        Gourde</a>
+                                                    <a
+                                                        onclick="selectCourency('HNL', 'toCoinDropDown', this.innerText)">Honduran
+                                                        Lempira</a>
+                                                    <a
+                                                        onclick="selectCourency('HKD', 'toCoinDropDown', this.innerText)">Hong
+                                                        Kong Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('HUF', 'toCoinDropDown', this.innerText)">Hungarian
+                                                        Forint</a>
+                                                    <a
+                                                        onclick="selectCourency('ISK', 'toCoinDropDown', this.innerText)">Icelandic
+                                                        KrÃ³na</a>
+                                                    <a
+                                                        onclick="selectCourency('INR', 'toCoinDropDown', this.innerText)">Indian
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('IDR', 'toCoinDropDown', this.innerText)">Indonesian
+                                                        Rupiah</a>
+                                                    <a
+                                                        onclick="selectCourency('IRR', 'toCoinDropDown', this.innerText)">Iranian
+                                                        Rial</a>
+                                                    <a
+                                                        onclick="selectCourency('IQD', 'toCoinDropDown', this.innerText)">Iraqi
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('ILS', 'toCoinDropDown', this.innerText)">Israeli
+                                                        New Sheqel</a>
+                                                    <a
+                                                        onclick="selectCourency('ITL', 'toCoinDropDown', this.innerText)">Italian
+                                                        Lira</a>
+                                                    <a
+                                                        onclick="selectCourency('JMD', 'toCoinDropDown', this.innerText)">Jamaican
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('JPY', 'toCoinDropDown', this.innerText)">Japanese
+                                                        Yen</a>
+                                                    <a
+                                                        onclick="selectCourency('JOD', 'toCoinDropDown', this.innerText)">Jordanian
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('KZT', 'toCoinDropDown', this.innerText)">Kazakhstani
+                                                        Tenge</a>
+                                                    <a
+                                                        onclick="selectCourency('KES', 'toCoinDropDown', this.innerText)">Kenyan
+                                                        Shilling</a>
+                                                    <a
+                                                        onclick="selectCourency('KWD', 'toCoinDropDown', this.innerText)">Kuwaiti
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('KGS', 'toCoinDropDown', this.innerText)">Kyrgystani
+                                                        Som</a>
+                                                    <a
+                                                        onclick="selectCourency('LAK', 'toCoinDropDown', this.innerText)">Laotian
+                                                        Kip</a>
+                                                    <a
+                                                        onclick="selectCourency('LVL', 'toCoinDropDown', this.innerText)">Latvian
+                                                        Lats</a>
+                                                    <a
+                                                        onclick="selectCourency('LBP', 'toCoinDropDown', this.innerText)">Lebanese
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('LSL', 'toCoinDropDown', this.innerText)">Lesotho
+                                                        Loti</a>
+                                                    <a
+                                                        onclick="selectCourency('LRD', 'toCoinDropDown', this.innerText)">Liberian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('LYD', 'toCoinDropDown', this.innerText)">Libyan
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('LTL', 'toCoinDropDown', this.innerText)">Lithuanian
+                                                        Litas</a>
+                                                    <a
+                                                        onclick="selectCourency('MOP', 'toCoinDropDown', this.innerText)">Macanese
+                                                        Pataca</a>
+                                                    <a
+                                                        onclick="selectCourency('MKD', 'toCoinDropDown', this.innerText)">Macedonian
+                                                        Denar</a>
+                                                    <a
+                                                        onclick="selectCourency('MGA', 'toCoinDropDown', this.innerText)">Malagasy
+                                                        Ariary</a>
+                                                    <a
+                                                        onclick="selectCourency('MWK', 'toCoinDropDown', this.innerText)">Malawian
+                                                        Kwacha</a>
+                                                    <a
+                                                        onclick="selectCourency('MYR', 'toCoinDropDown', this.innerText)">Malaysian
+                                                        Ringgit</a>
+                                                    <a
+                                                        onclick="selectCourency('MVR', 'toCoinDropDown', this.innerText)">Maldivian
+                                                        Rufiyaa</a>
+                                                    <a
+                                                        onclick="selectCourency('MRO', 'toCoinDropDown', this.innerText)">Mauritanian
+                                                        Ouguiya</a>
+                                                    <a
+                                                        onclick="selectCourency('MUR', 'toCoinDropDown', this.innerText)">Mauritian
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('MXN', 'toCoinDropDown', this.innerText)">Mexican
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('MDL', 'toCoinDropDown', this.innerText)">Moldovan
+                                                        Leu</a>
+                                                    <a
+                                                        onclick="selectCourency('MNT', 'toCoinDropDown', this.innerText)">Mongolian
+                                                        Tugrik</a>
+                                                    <a
+                                                        onclick="selectCourency('MAD', 'toCoinDropDown', this.innerText)">Moroccan
+                                                        Dirham</a>
+                                                    <a
+                                                        onclick="selectCourency('MZM', 'toCoinDropDown', this.innerText)">Mozambican
+                                                        Metical</a>
+                                                    <a
+                                                        onclick="selectCourency('MMK', 'toCoinDropDown', this.innerText)">Myanmar
+                                                        Kyat</a>
+                                                    <a
+                                                        onclick="selectCourency('NAD', 'toCoinDropDown', this.innerText)">Namibian
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('NPR', 'toCoinDropDown', this.innerText)">Nepalese
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('ANG', 'toCoinDropDown', this.innerText)">Netherlands
+                                                        Antillean
+                                                        Guilder</a>
+                                                    <a
+                                                        onclick="selectCourency('TWD', 'toCoinDropDown', this.innerText)">New
+                                                        Taiwan Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('NZD', 'toCoinDropDown', this.innerText)">New
+                                                        Zealand Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('NIO', 'toCoinDropDown', this.innerText)">Nicaraguan
+                                                        CÃ³rdoba</a>
+                                                    <a
+                                                        onclick="selectCourency('NGN', 'toCoinDropDown', this.innerText)">Nigerian
+                                                        Naira</a>
+                                                    <a
+                                                        onclick="selectCourency('KPW', 'toCoinDropDown', this.innerText)">North
+                                                        Korean Won</a>
+                                                    <a
+                                                        onclick="selectCourency('NOK', 'toCoinDropDown', this.innerText)">Norwegian
+                                                        Krone</a>
+                                                    <a
+                                                        onclick="selectCourency('OMR', 'toCoinDropDown', this.innerText)">Omani
+                                                        Rial</a>
+                                                    <a
+                                                        onclick="selectCourency('PKR', 'toCoinDropDown', this.innerText)">Pakistani
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('PAB', 'toCoinDropDown', this.innerText)">Panamanian
+                                                        Balboa</a>
+                                                    <a
+                                                        onclick="selectCourency('PGK', 'toCoinDropDown', this.innerText)">Papua
+                                                        New Guinean
+                                                        Kina</a>
+                                                    <a
+                                                        onclick="selectCourency('PYG', 'toCoinDropDown', this.innerText)">Paraguayan
+                                                        Guarani</a>
+                                                    <a
+                                                        onclick="selectCourency('PEN', 'toCoinDropDown', this.innerText)">Peruvian
+                                                        Nuevo Sol</a>
+                                                    <a
+                                                        onclick="selectCourency('PHP', 'toCoinDropDown', this.innerText)">Philippine
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('PLN', 'toCoinDropDown', this.innerText)">Polish
+                                                        Zloty</a>
+                                                    <a
+                                                        onclick="selectCourency('QAR', 'toCoinDropDown', this.innerText)">Qatari
+                                                        Rial</a>
+                                                    <a
+                                                        onclick="selectCourency('RON', 'toCoinDropDown', this.innerText)">Romanian
+                                                        Leu</a>
+                                                    <a
+                                                        onclick="selectCourency('RUB', 'toCoinDropDown', this.innerText)">Russian
+                                                        Ruble</a>
+                                                    <a
+                                                        onclick="selectCourency('RWF', 'toCoinDropDown', this.innerText)">Rwandan
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('SVC', 'toCoinDropDown', this.innerText)">Salvadoran
+                                                        ColÃ³n</a>
+                                                    <a
+                                                        onclick="selectCourency('WST', 'toCoinDropDown', this.innerText)">Samoan
+                                                        Tala</a>
+                                                    <a
+                                                        onclick="selectCourency('SAR', 'toCoinDropDown', this.innerText)">Saudi
+                                                        Riyal</a>
+                                                    <a
+                                                        onclick="selectCourency('RSD', 'toCoinDropDown', this.innerText)">Serbian
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('SCR', 'toCoinDropDown', this.innerText)">Seychellois
+                                                        Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('SLL', 'toCoinDropDown', this.innerText)">Sierra
+                                                        Leonean
+                                                        Leone</a>
+                                                    <a
+                                                        onclick="selectCourency('SGD', 'toCoinDropDown', this.innerText)">Singapore
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('SKK', 'toCoinDropDown', this.innerText)">Slovak
+                                                        Koruna</a>
+                                                    <a
+                                                        onclick="selectCourency('SBD', 'toCoinDropDown', this.innerText)">Solomon
+                                                        Islands
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('SOS', 'toCoinDropDown', this.innerText)">Somali
+                                                        Shilling</a>
+                                                    <a
+                                                        onclick="selectCourency('ZAR', 'toCoinDropDown', this.innerText)">South
+                                                        African Rand</a>
+                                                    <a
+                                                        onclick="selectCourency('KRW', 'toCoinDropDown', this.innerText)">South
+                                                        Korean Won</a>
+                                                    <a
+                                                        onclick="selectCourency('XDR', 'toCoinDropDown', this.innerText)">Special
+                                                        Drawing
+                                                        Rights</a>
+                                                    <a
+                                                        onclick="selectCourency('LKR', 'toCoinDropDown', this.innerText)">Sri
+                                                        Lankan Rupee</a>
+                                                    <a
+                                                        onclick="selectCourency('SHP', 'toCoinDropDown', this.innerText)">St.
+                                                        Helena Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('SDG', 'toCoinDropDown', this.innerText)">Sudanese
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('SRD', 'toCoinDropDown', this.innerText)">Surinamese
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('SZL', 'toCoinDropDown', this.innerText)">Swazi
+                                                        Lilangeni</a>
+                                                    <a
+                                                        onclick="selectCourency('SEK', 'toCoinDropDown', this.innerText)">Swedish
+                                                        Krona</a>
+                                                    <a
+                                                        onclick="selectCourency('CHF', 'toCoinDropDown', this.innerText)">Swiss
+                                                        Franc</a>
+                                                    <a
+                                                        onclick="selectCourency('SYP', 'toCoinDropDown', this.innerText)">Syrian
+                                                        Pound</a>
+                                                    <a
+                                                        onclick="selectCourency('STD', 'toCoinDropDown', this.innerText)">São
+                                                        Tomé and Príncipe
+                                                        Dobra</a>
+                                                    <a
+                                                        onclick="selectCourency('TJS', 'toCoinDropDown', this.innerText)">Tajikistani
+                                                        Somoni</a>
+                                                    <a
+                                                        onclick="selectCourency('TZS', 'toCoinDropDown', this.innerText)">Tanzanian
+                                                        Shilling</a>
+                                                    <a
+                                                        onclick="selectCourency('THB', 'toCoinDropDown', this.innerText)">Thai
+                                                        Baht</a>
+                                                    <a
+                                                        onclick="selectCourency('TOP', 'toCoinDropDown', this.innerText)">Tongan
+                                                        pa'anga</a>
+                                                    <a
+                                                        onclick="selectCourency('TTD', 'toCoinDropDown', this.innerText)">Trinidad
+                                                        & Tobago
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('TND', 'toCoinDropDown', this.innerText)">Tunisian
+                                                        Dinar</a>
+                                                    <a
+                                                        onclick="selectCourency('TRY', 'toCoinDropDown', this.innerText)">Turkish
+                                                        Lira</a>
+                                                    <a
+                                                        onclick="selectCourency('TMT', 'toCoinDropDown', this.innerText)">Turkmenistani
+                                                        Manat</a>
+                                                    <a
+                                                        onclick="selectCourency('UGX', 'toCoinDropDown', this.innerText)">Ugandan
+                                                        Shilling</a>
+                                                    <a
+                                                        onclick="selectCourency('UAH', 'toCoinDropDown', this.innerText)">Ukrainian
+                                                        Hryvnia</a>
+                                                    <a
+                                                        onclick="selectCourency('AED', 'toCoinDropDown', this.innerText)">United
+                                                        Arab Emirates
+                                                        Dirham</a>
+                                                    <a
+                                                        onclick="selectCourency('UYU', 'toCoinDropDown', this.innerText)">Uruguayan
+                                                        Peso</a>
+                                                    <a
+                                                        onclick="selectCourency('USD', 'toCoinDropDown', this.innerText)">US
+                                                        Dollar</a>
+                                                    <a
+                                                        onclick="selectCourency('UZS', 'toCoinDropDown', this.innerText)">Uzbekistan
+                                                        Som</a>
+                                                    <a
+                                                        onclick="selectCourency('VUV', 'toCoinDropDown', this.innerText)">Vanuatu
+                                                        Vatu</a>
+                                                    <a
+                                                        onclick="selectCourency('VEF', 'toCoinDropDown', this.innerText)">Venezuelan
+                                                        BolÃ­var</a>
+                                                    <a
+                                                        onclick="selectCourency('VND', 'toCoinDropDown', this.innerText)">Vietnamese
+                                                        Dong</a>
+                                                    <a
+                                                        onclick="selectCourency('YER', 'toCoinDropDown', this.innerText)">Yemeni
+                                                        Rial</a>
+                                                    <a
+                                                        onclick="selectCourency('ZMK', 'toCoinDropDown', this.innerText)">Zambian
+                                                        Kwacha</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="list_info">Description</label>
+                                                    <textarea class="form-control" id="list_info" rows="4"
+                                                        id="description" placeholder="Enter your text here"
+                                                        required></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-md-6  col-12 text-right sm-left">
+                                                    <button type="submit" class="btn v1 mar-top-10"
+                                                        onclick="addListing()">Apply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-left">
+                                            <div class="res-box mar-top-10">
+                                                <input type="checkbox" tabindex="3" class="" name="listing_terms"
+                                                    id="listing_terms" required>
+                                                <label for="remember" id="terms">I've read and accept <a class="popup"
+                                                        onclick="termsPopUp()">terms
+                                                        &amp; conditions</a></label>
+                                            </div>
+                                        </div>
+                                        <div id="termsPopup" class="modal">
+                                            <div class="modal-content">
+                                                <span class="close">&times;</span>
+                                                <p>Privacy Policy
+
+                                                    Welcome toCooperative Currency Exchange (the "Exchange," "we," "us,"
+                                                    or "our"). We are committed to protecting the privacy of our users
+                                                    and customers (collectively, "you" or "your"). This Privacy Policy
+                                                    explains how we collect, use, and share information about you when
+                                                    you use our website and online services, including our mobile
+                                                    applications (collectively, the "Services").
+
+                                                    By using our Services, you agree to the collection, use, and sharing
+                                                    of your information as described in this Privacy Policy. If you do
+                                                    not agree with our policies and practices, do not use our Services.
+
+                                                    Information We Collect
+                                                    We collect information about you in the following ways:
+
+                                                    Information you provide to us: We collect information that you
+                                                    provide directly to us, such as when you create an account, make a
+                                                    purchase, or contact us for support. This may include your name,
+                                                    email address, phone number, and payment information.
+
+                                                    Information we collect automatically: We may collect information
+                                                    about your use of our Services, such as your browsing history,
+                                                    search queries, and location data. We may also collect information
+                                                    about the device you use to access our Services, including the IP
+                                                    address, device type, operating system, and browser type.
+
+                                                    How We Use Your Information
+                                                    We use the information we collect about you for the following
+                                                    purposes:
+
+                                                    To provide, maintain, and improve our Services: We use your
+                                                    information to provide, maintain, and improve the Services,
+                                                    including to process transactions, facilitate communication, and
+                                                    provide customer support.
+
+                                                    To communicate with you: We use your information to communicate with
+                                                    you about your account, purchases, and other matters related to your
+                                                    use of the Services.
+
+                                                    For marketing and promotional purposes: We may use your information
+                                                    to send you promotional materials, such as newsletters or
+                                                    advertisements, or to personalize your experience on our Services.
+
+                                                    For research and development: We may use your information for
+                                                    research and development purposes, such as to improve the
+                                                    functionality and user experience of our Services.
+
+                                                    For legal and compliance purposes: We may use your information as
+                                                    necessary to comply with legal obligations, such as to respond to
+                                                    subpoenas or other legal requests.
+
+                                                    How We Share Your Information
+                                                    We may share your information with the following third parties:
+
+                                                    Service providers: We may share your information with service
+                                                    providers that perform functions on our behalf, such as payment
+                                                    processors and hosting companies.
+
+                                                    Business partners: We may share your information with business
+                                                    partners for joint marketing or other collaborative purposes.
+
+                                                    Legal and compliance purposes: We may share your information as
+                                                    necessary to comply with legal obligations, such as to respond to
+                                                    subpoenas or other legal requests.
+
+                                                    We will not sell or rent your personal information to third parties
+                                                    for their marketing purposes without your explicit consent.
+
+                                                    Your Choices
+                                                    You have the following choices regarding the collection, use, and
+                                                    sharing of your information:
+
+                                                    Opt-out of marketing communications: You may opt-out of receiving
+                                                    promotional emails from us by following the unsubscribe instructions
+                                                    included in such emails.
+
+                                                    Access and control your information: You may access and update your
+                                                    account information by logging into your account and making the
+                                                    desired changes. You may also request that we delete your account or
+                                                    personal information by contacting us at [Insert Contact Email].
+                                                    Please note that we may retain certain information as required by
+                                                    law or for legitimate business purposes.
+
+                                                    Data Security
+                                                    We have implemented appropriate technical and organizational
+                                                    measures to protect</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Add Listing ends-->
+        </div>
+        <!--Dashboard content Wrapper ends-->
+
+    </div>
+    <!--firebase-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+    <!-- Plugin JS-->
+    <script src="../js/plugin.js"></script>
+    <!--Perfect Scrollbar JS-->
+    <script src="../js/perfect-scrollbar.min.js"></script>
+    <!-- Main JS-->
+    <script src="../js/main.js"></script>
+    <script src="../js/firebase.js"></script>
+    <!-- Dashboard JS-->
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

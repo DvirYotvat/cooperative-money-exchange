@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+    <!-- Metas -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="LionCoders" />
+    <!-- Links -->
+    <link rel="icon" type="image/png" href="#" />
+    <!-- google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link href="css/plugin.css" rel="stylesheet" />
+    <!-- style CSS -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- Document Title -->
+    <title>CCE - login/register</title>
+</head>
+
+<body onload="checkSession()">
+    <!--Preloader starts-->
+    <div class="preloader js-preloader">
+        <img src="../images/preloader.gif" alt="...">
+    </div>
+    <!--Page Wrapper starts-->
+    <div class="page-wrapper">
+        <!--header starts-->
+        <header class="transparent scroll-hide">
+            <!--Main Menu starts-->
+            <div class="site-navbar-wrap v2">
+                <div class="container">
+                    <!--mobile-menu starts -->
+                    <div class="site-mobile-menu">
+                        <div class="site-mobile-menu-header">
+                            <div class="site-mobile-menu-close  js-menu-toggle">
+                                <span class="ion-ios-close-empty"></span>
+                            </div>
+                        </div>
+                        <div class="site-mobile-menu-body"></div>
+                    </div>
+                    <!--mobile-menu ends-->
+                </div>
+            </div>
+            <!--Main Menu ends-->
+        </header>
+        <!--Header ends-->
+        <!--User Login section starts-->
+
+        <div class="user-login-section section-padding bg-fixed">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1  text-center">
+                        <div class="login-wrapper">
+                            <div>
+                                <a style="color: #0cbcb7;"> Welcome to CCE - Cooperative Currency
+                                    Exchange </a>
+                            </div>
+                            <br>
+                            <ul class=" ui-list nav nav-tabs justify-content-center mar-bot-30" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#login" role="tab"
+                                        aria-selected="true">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#register" role="tab"
+                                        aria-selected="false">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="htmls/home.html">Login as guest</a>
+                                </li>
+                            </ul>
+                            <div class="ui-dash tab-content">
+                                <div class="tab-pane fade show active" id="login" role="tabpanel">
+                                    <form id="login-form">
+                                        <div class="form-group">
+                                            <input type="text" name="username" id="username" tabindex="1"
+                                                class="form-control" placeholder="email" value="" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" id="password" tabindex="2"
+                                                class="form-control" placeholder="Password">
+                                        </div>
+                                        <div class="row mar-top-20">
+                                            <div class="col-md-6 col-12 text-left">
+                                                <div class="res-box">
+                                                    <input type="checkbox" tabindex="3" class="" name="remember"
+                                                        id="remember">
+                                                    <label for="remember">Remember Me</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12 text-right">
+                                                <div class="res-box sm-left">
+                                                    <a tabindex="5" class="forgot-password"
+                                                        onclick="forgotPassword()">Forgot
+                                                        Password?</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="res-box text-center mar-top-30">
+                                            <button type="button" class="btn v3" onclick="login()"><i
+                                                    class="ion-log-in"></i> Log
+                                                In</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="register">
+                                    <form id="register-form">
+                                        <div class="form-group">
+                                            <input type="email" name="email" id="email" tabindex="1"
+                                                class="form-control" placeholder="Email Address" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" name="secEmail" id="secEmail" tabindex="1"
+                                                class="form-control" placeholder="Email Address" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="user_password" id="user_password" tabindex="2"
+                                                class="form-control" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="confirm-password" id="confirm_password"
+                                                tabindex="2" class="form-control" placeholder="Confirm Password">
+                                        </div>
+                                        <div class="res-box text-left">
+                                            <input type="checkbox" tabindex="3" class="" name="terms" id="terms">
+                                            <label for="remember">I've read and accept terms &amp;
+                                                conditions</label>
+                                        </div>
+                                        <div class="res-box text-center mar-top-30">
+                                            <button type="button" class="btn v3" id="signUp" onclick="reg()"></i>Sign
+                                                Up</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--User login section ends-->
+        <!--Login section ends-->
+        <!-- Scroll to top starts-->
+        <span class="scrolltotop"><i class="ion-arrow-up-c"></i></span>
+        <!-- Scroll to top ends-->
+    </div>
+    <!--Page Wrapper ends-->
+    <!--Scripts starts-->
+    <!--firebase-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+    <!--plugin js-->
+    <script src="js/plugin.js"></script>
+    <!--Main js-->
+    <script src="js/main.js"></script>
+    <script src="js/firebase.js"></script>
+    <!--Scripts ends-->
+</body>
+
+</html>
