@@ -493,8 +493,10 @@ function addListing() {
     var title = document.getElementById("listingTitle").value;
     var location = document.getElementById("address").value;
     var phone = document.getElementById("add_listing_phone").value;
-    var fromPrice = document.getElementById("priceFrom").value;
-    var toPrice = document.getElementById("priceTo").value;
+    var fromPriceNumber = document.getElementById("priceFrom").value;
+    var toPriceNumber = document.getElementById("priceTo").value;
+    var fromPrice = $("#search-filter-from").text();
+    var toPrice = $("#search-filter-to").text();
     var description = document.getElementById("list_info").value;
 
     // get latitude and longitude
@@ -526,8 +528,10 @@ function addListing() {
       map_image_url: "../images/marker.png",
       email: email,
       location: location,
-      price_from: fromPrice,
-      price_to: toPrice,
+      price_from: fromPriceNumber,
+      price_to: toPriceNumber,
+      price_symbol_from: fromPrice,
+      price_symbol_to: toPrice,
       description: description,
     };
 
@@ -568,12 +572,40 @@ window.onclick = function (event) {
   }
 };
 
+function selectCourency(coin, divId, coinName) {
+  if (divId == "fromCoinDropDown")
+    $("#search-filter-from").text(coin + " - " + coinName);
+  else $("#search-filter-to").text(coin + " - " + coinName);
+}
+
 /*----------------------------------------------------------------home ------------------------------------------------------------------------------------------------*/
 /*----------------------------------------
                         on load function
     ------------------------------------------*/
 function onloadHome() {
   showAllListings();
+}
+
+/*----------------------------------------
+                        show curency
+    ------------------------------------------*/
+function showDropdownCurrency(divId) {
+  document.getElementById(divId).classList.toggle("show");
+}
+function filterFunction(divId, inputId) {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById(inputId);
+  filter = input.value.toUpperCase();
+  div = document.getElementById(divId);
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
 }
 
 /*----------------------------------------
@@ -596,6 +628,8 @@ function showAllListings() {
           const phone = childS2napshot.val().phone;
           const priceF = childS2napshot.val().price_from;
           const priceT = childS2napshot.val().price_to;
+          const priceFS = childS2napshot.val().price_symbol_from;
+          const priceTS = childS2napshot.val().price_symbol_to;
           const description = childS2napshot.val().description;
           const title = childS2napshot.val().type_point;
           const location = childS2napshot.val().location;
@@ -643,10 +677,10 @@ function showAllListings() {
                               <p>${email}</p>
                           </li>
                           <li>
-                            <p> from: ${priceF}</p>
+                            <p> from: ${priceF}, ${priceFS}</p>
                           </li>
                           <li>
-                          <p> to: ${priceT}</p>
+                          <p> to: ${priceT}, ${priceTS}</p>
                         </li>
                           <li>
                           <p>${description}</p>
@@ -666,15 +700,15 @@ function showAllListings() {
             "rate": "${rate}",
             "review": "${review} reviews",
             "phone": "${phone}",
-            "priceF":"${priceF}",
-            "priceT":"${priceT}",
+            "priceF":"${priceF} - ${priceFS}",
+            "priceT":"${priceT} - ${priceTS}",
             "description": "${description}"
           },
         `;
         }
       });
     });
-    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    let numOfListingsStr = `<p id='ShowingListing' >Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
     $("#list-view").append(listing);
     $("#num_of_listing").append(numOfListingsStr);
     // markers = JSON.parse(markers);
@@ -705,8 +739,13 @@ function collapsible(x) {
 function applySearch() {
   $("#list-view").html("");
   $("#num_of_listing").html("");
-  let searchFilterTo = document.getElementById("search-filter-to").value;
-  let searchFilterFrom = document.getElementById("search-filter-from").value;
+  let searchFilterTo = document.getElementById("search-filter-to").textContent;
+  let searchFilterFrom =
+    document.getElementById("search-filter-from").textContent;
+
+  if (searchFilterFrom == "from coin type...") searchFilterFrom = "";
+  if (searchFilterTo == "to coin type...") searchFilterTo = "";
+
   if (searchFilterTo == "" && searchFilterFrom == "") {
     applySearchWithOnlyLocation();
   } else if (searchFilterTo != "" && searchFilterFrom != "") {
@@ -722,7 +761,11 @@ function applySearch() {
 
 function applySearchFromAndToAndLocation() {
   let locationFilter = document.getElementById("location-filter").value;
+  let searchFilterTo = document.getElementById("search-filter-to").textContent;
+  let searchFilterFrom =
+    document.getElementById("search-filter-from").textContent;
 
+  let numOfListingsTotal = 0;
   let numOfListings = 0;
   const listingsRef = firebase.database().ref("listings");
   listingsRef.once("value").then((snapshot) => {
@@ -733,11 +776,13 @@ function applySearchFromAndToAndLocation() {
       childSnapshot.forEach((childS2napshot) => {
         const childData = childS2napshot.val();
         if (typeof childData == "object") {
-          numOfListings++;
+          numOfListingsTotal++;
           const email = childS2napshot.val().email;
           const phone = childS2napshot.val().phone;
           const priceF = childS2napshot.val().price_from;
           const priceT = childS2napshot.val().price_to;
+          const priceFS = childS2napshot.val().price_symbol_from;
+          const priceTS = childS2napshot.val().price_symbol_to;
           const description = childS2napshot.val().description;
           const title = childS2napshot.val().type_point;
           const location = childS2napshot.val().location;
@@ -748,10 +793,11 @@ function applySearchFromAndToAndLocation() {
 
           if (rate != 0) rate = rate / review;
           if (
-            searchFilterTo == priceF &&
-            searchFilterFrom == priceT &&
+            searchFilterTo == priceTS &&
+            searchFilterFrom == priceFS &&
             location == locationFilter
           ) {
+            numOfListings++;
             // create rating with stars icon
             let rateing = `<div class="ratings">`;
             let temp = ``;
@@ -789,10 +835,10 @@ function applySearchFromAndToAndLocation() {
                               <p>${email}</p>
                           </li>
                           <li>
-                            <p> from: ${priceF}</p>
+                            <p> from: ${priceF}, ${priceFS}</p>
                           </li>
                           <li>
-                          <p> to: ${priceT}</p>
+                          <p> to: ${priceT}, ${priceTS}</p>
                         </li>
                           <li>
                           <p>${description}</p>
@@ -812,8 +858,8 @@ function applySearchFromAndToAndLocation() {
             "rate": "${rate}",
             "review": "${review} reviews",
             "phone": "${phone}",
-            "priceF":"${priceF}",
-            "priceT":"${priceT}",
+            "priceF":"${priceF} - ${priceFS}",
+            "priceT":"${priceT} - ${priceTS}",
             "description": "${description}"
           },
         `;
@@ -822,7 +868,7 @@ function applySearchFromAndToAndLocation() {
         }
       });
     });
-    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListingsTotal}</span> Listings</p>`;
     $("#list-view").append(listing);
     $("#num_of_listing").append(numOfListingsStr);
     // markers = JSON.parse(markers);
@@ -839,6 +885,11 @@ function applySearchFromAndToAndLocation() {
 }
 
 function applySearchFromAndTo() {
+  let searchFilterTo = document.getElementById("search-filter-to").textContent;
+  let searchFilterFrom =
+    document.getElementById("search-filter-from").textContent;
+
+  let numOfListingsTotal = 0;
   let numOfListings = 0;
   const listingsRef = firebase.database().ref("listings");
   listingsRef.once("value").then((snapshot) => {
@@ -849,11 +900,13 @@ function applySearchFromAndTo() {
       childSnapshot.forEach((childS2napshot) => {
         const childData = childS2napshot.val();
         if (typeof childData == "object") {
-          numOfListings++;
+          numOfListingsTotal++;
           const email = childS2napshot.val().email;
           const phone = childS2napshot.val().phone;
           const priceF = childS2napshot.val().price_from;
           const priceT = childS2napshot.val().price_to;
+          const priceFS = childS2napshot.val().price_symbol_from;
+          const priceTS = childS2napshot.val().price_symbol_to;
           const description = childS2napshot.val().description;
           const title = childS2napshot.val().type_point;
           const location = childS2napshot.val().location;
@@ -863,7 +916,8 @@ function applySearchFromAndTo() {
           const long = childS2napshot.val().location_longitude;
 
           if (rate != 0) rate = rate / review;
-          if (searchFilterTo == priceF && searchFilterFrom == priceT) {
+          if (searchFilterTo == priceTS && searchFilterFrom == priceFS) {
+            numOfListings++;
             // create rating with stars icon
             let rateing = `<div class="ratings">`;
             let temp = ``;
@@ -901,10 +955,10 @@ function applySearchFromAndTo() {
                               <p>${email}</p>
                           </li>
                           <li>
-                            <p> from: ${priceF}</p>
+                            <p> from: ${priceF}, ${priceFS}</p>
                           </li>
                           <li>
-                          <p> to: ${priceT}</p>
+                          <p> to: ${priceT}, ${priceTS}</p>
                         </li>
                           <li>
                           <p>${description}</p>
@@ -924,8 +978,8 @@ function applySearchFromAndTo() {
             "rate": "${rate}",
             "review": "${review} reviews",
             "phone": "${phone}",
-            "priceF":"${priceF}",
-            "priceT":"${priceT}",
+            "priceF":"${priceF} - ${priceFS}",
+            "priceT":"${priceT} - ${priceTS}",
             "description": "${description}"
           },
         `;
@@ -934,7 +988,7 @@ function applySearchFromAndTo() {
         }
       });
     });
-    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListingsTotal}</span> Listings</p>`;
     $("#list-view").append(listing);
     $("#num_of_listing").append(numOfListingsStr);
     // markers = JSON.parse(markers);
@@ -951,6 +1005,9 @@ function applySearchFromAndTo() {
 }
 
 function applySearchOnlyTo() {
+  let searchFilterTo = document.getElementById("search-filter-to").textContent;
+
+  let numOfListingsTotal = 0;
   let numOfListings = 0;
   const listingsRef = firebase.database().ref("listings");
   listingsRef.once("value").then((snapshot) => {
@@ -961,11 +1018,13 @@ function applySearchOnlyTo() {
       childSnapshot.forEach((childS2napshot) => {
         const childData = childS2napshot.val();
         if (typeof childData == "object") {
-          numOfListings++;
+          numOfListingsTotal++;
           const email = childS2napshot.val().email;
           const phone = childS2napshot.val().phone;
           const priceF = childS2napshot.val().price_from;
           const priceT = childS2napshot.val().price_to;
+          const priceFS = childS2napshot.val().price_symbol_from;
+          const priceTS = childS2napshot.val().price_symbol_to;
           const description = childS2napshot.val().description;
           const title = childS2napshot.val().type_point;
           const location = childS2napshot.val().location;
@@ -975,7 +1034,8 @@ function applySearchOnlyTo() {
           const long = childS2napshot.val().location_longitude;
 
           if (rate != 0) rate = rate / review;
-          if (searchFilterTo == priceF) {
+          if (searchFilterTo == priceTS) {
+            numOfListings++;
             // create rating with stars icon
             let rateing = `<div class="ratings">`;
             let temp = ``;
@@ -1013,10 +1073,10 @@ function applySearchOnlyTo() {
                               <p>${email}</p>
                           </li>
                           <li>
-                            <p> from: ${priceF}</p>
+                            <p> from: ${priceF}, ${priceFS}</p>
                           </li>
                           <li>
-                          <p> to: ${priceT}</p>
+                          <p> to: ${priceT}, ${priceTS}</p>
                         </li>
                           <li>
                           <p>${description}</p>
@@ -1036,8 +1096,8 @@ function applySearchOnlyTo() {
             "rate": "${rate}",
             "review": "${review} reviews",
             "phone": "${phone}",
-            "priceF":"${priceF}",
-            "priceT":"${priceT}",
+            "priceF":"${priceF} - ${priceFS}",
+            "priceT":"${priceT} - ${priceTS}",
             "description": "${description}"
           },
         `;
@@ -1046,7 +1106,7 @@ function applySearchOnlyTo() {
         }
       });
     });
-    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListingsTotal}</span> Listings</p>`;
     $("#list-view").append(listing);
     $("#num_of_listing").append(numOfListingsStr);
     // markers = JSON.parse(markers);
@@ -1063,6 +1123,10 @@ function applySearchOnlyTo() {
 }
 
 function applySearchOnlyFrom() {
+  let searchFilterFrom =
+    document.getElementById("search-filter-from").textContent;
+
+  let numOfListingsTotal = 0;
   let numOfListings = 0;
   const listingsRef = firebase.database().ref("listings");
   listingsRef.once("value").then((snapshot) => {
@@ -1073,11 +1137,13 @@ function applySearchOnlyFrom() {
       childSnapshot.forEach((childS2napshot) => {
         const childData = childS2napshot.val();
         if (typeof childData == "object") {
-          numOfListings++;
+          numOfListingsTotal++;
           const email = childS2napshot.val().email;
           const phone = childS2napshot.val().phone;
           const priceF = childS2napshot.val().price_from;
           const priceT = childS2napshot.val().price_to;
+          const priceFS = childS2napshot.val().price_symbol_from;
+          const priceTS = childS2napshot.val().price_symbol_to;
           const description = childS2napshot.val().description;
           const title = childS2napshot.val().type_point;
           const location = childS2napshot.val().location;
@@ -1087,7 +1153,9 @@ function applySearchOnlyFrom() {
           const long = childS2napshot.val().location_longitude;
 
           if (rate != 0) rate = rate / review;
-          if (searchFilterFrom == priceT) {
+
+          if (searchFilterFrom == priceFS) {
+            numOfListings++;
             // create rating with stars icon
             let rateing = `<div class="ratings">`;
             let temp = ``;
@@ -1125,10 +1193,10 @@ function applySearchOnlyFrom() {
                               <p>${email}</p>
                           </li>
                           <li>
-                            <p> from: ${priceF}</p>
+                            <p> from: ${priceF}, ${priceFS}</p>
                           </li>
                           <li>
-                          <p> to: ${priceT}</p>
+                          <p> to: ${priceT}, ${priceTS}</p>
                         </li>
                           <li>
                           <p>${description}</p>
@@ -1148,8 +1216,8 @@ function applySearchOnlyFrom() {
             "rate": "${rate}",
             "review": "${review} reviews",
             "phone": "${phone}",
-            "priceF":"${priceF}",
-            "priceT":"${priceT}",
+            "priceF":"${priceF} - ${priceFS}",
+            "priceT":"${priceT} - ${priceTS}",
             "description": "${description}"
           },
         `;
@@ -1158,7 +1226,7 @@ function applySearchOnlyFrom() {
         }
       });
     });
-    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListingsTotal}</span> Listings</p>`;
     $("#list-view").append(listing);
     $("#num_of_listing").append(numOfListingsStr);
     // markers = JSON.parse(markers);
@@ -1177,6 +1245,7 @@ function applySearchOnlyFrom() {
 function applySearchWithOnlyLocation() {
   let locationFilter = document.getElementById("location-filter").value;
 
+  let numOfListingsTotal = 0;
   let numOfListings = 0;
   const listingsRef = firebase.database().ref("listings");
   listingsRef.once("value").then((snapshot) => {
@@ -1187,11 +1256,13 @@ function applySearchWithOnlyLocation() {
       childSnapshot.forEach((childS2napshot) => {
         const childData = childS2napshot.val();
         if (typeof childData == "object") {
-          numOfListings++;
+          numOfListingsTotal++;
           const email = childS2napshot.val().email;
           const phone = childS2napshot.val().phone;
           const priceF = childS2napshot.val().price_from;
           const priceT = childS2napshot.val().price_to;
+          const priceFS = childS2napshot.val().price_symbol_from;
+          const priceTS = childS2napshot.val().price_symbol_to;
           const description = childS2napshot.val().description;
           const title = childS2napshot.val().type_point;
           const location = childS2napshot.val().location;
@@ -1202,6 +1273,7 @@ function applySearchWithOnlyLocation() {
 
           if (rate != 0) rate = rate / review;
           if (location == locationFilter) {
+            numOfListings++;
             // create rating with stars icon
             let rateing = `<div class="ratings">`;
             let temp = ``;
@@ -1239,10 +1311,10 @@ function applySearchWithOnlyLocation() {
                               <p>${email}</p>
                           </li>
                           <li>
-                            <p> from: ${priceF}</p>
+                            <p> from: ${priceF}, ${priceFS}</p>
                           </li>
                           <li>
-                          <p> to: ${priceT}</p>
+                          <p> to: ${priceT}, ${priceTS}</p>
                         </li>
                           <li>
                           <p>${description}</p>
@@ -1262,8 +1334,8 @@ function applySearchWithOnlyLocation() {
             "rate": "${rate}",
             "review": "${review} reviews",
             "phone": "${phone}",
-            "priceF":"${priceF}",
-            "priceT":"${priceT}",
+            "priceF":"${priceF} - ${priceFS}",
+            "priceT":"${priceT} - ${priceTS}",
             "description": "${description}"
           },
         `;
@@ -1272,7 +1344,7 @@ function applySearchWithOnlyLocation() {
         }
       });
     });
-    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListings}</span> Listings</p>`;
+    let numOfListingsStr = `<p>Showing <span>${numOfListings} of ${numOfListingsTotal}</span> Listings</p>`;
     $("#list-view").append(listing);
     $("#num_of_listing").append(numOfListingsStr);
     // markers = JSON.parse(markers);
