@@ -123,9 +123,103 @@
                                                 tabindex="2" class="form-control" placeholder="Confirm Password">
                                         </div>
                                         <div class="res-box text-left">
-                                            <input type="checkbox" tabindex="3" class="" name="terms" id="terms">
-                                            <label for="remember">I've read and accept terms &amp;
-                                                conditions</label>
+                                            <input type="checkbox" tabindex="3" class="" name="listing_terms"
+                                                id="listing_terms" required>
+                                            <label for="remember" id="terms">I've read and accept <a class="popup"
+                                                    onclick="termsPopUp()">terms
+                                                    &amp; conditions</a></label>
+                                        </div>
+                                        <div id="termsPopup" class="modal">
+                                            <div class="modal-content">
+                                                <span class="close">&times;</span>
+                                                <p>Privacy Policy
+
+                                                    Welcome toCooperative Currency Exchange (the "Exchange," "we," "us,"
+                                                    or "our"). We are committed to protecting the privacy of our users
+                                                    and customers (collectively, "you" or "your"). This Privacy Policy
+                                                    explains how we collect, use, and share information about you when
+                                                    you use our website and online services, including our mobile
+                                                    applications (collectively, the "Services").
+
+                                                    By using our Services, you agree to the collection, use, and sharing
+                                                    of your information as described in this Privacy Policy. If you do
+                                                    not agree with our policies and practices, do not use our Services.
+
+                                                    Information We Collect
+                                                    We collect information about you in the following ways:
+
+                                                    Information you provide to us: We collect information that you
+                                                    provide directly to us, such as when you create an account, make a
+                                                    purchase, or contact us for support. This may include your name,
+                                                    email address, phone number, and payment information.
+
+                                                    Information we collect automatically: We may collect information
+                                                    about your use of our Services, such as your browsing history,
+                                                    search queries, and location data. We may also collect information
+                                                    about the device you use to access our Services, including the IP
+                                                    address, device type, operating system, and browser type.
+
+                                                    How We Use Your Information
+                                                    We use the information we collect about you for the following
+                                                    purposes:
+
+                                                    To provide, maintain, and improve our Services: We use your
+                                                    information to provide, maintain, and improve the Services,
+                                                    including to process transactions, facilitate communication, and
+                                                    provide customer support.
+
+                                                    To communicate with you: We use your information to communicate with
+                                                    you about your account, purchases, and other matters related to your
+                                                    use of the Services.
+
+                                                    For marketing and promotional purposes: We may use your information
+                                                    to send you promotional materials, such as newsletters or
+                                                    advertisements, or to personalize your experience on our Services.
+
+                                                    For research and development: We may use your information for
+                                                    research and development purposes, such as to improve the
+                                                    functionality and user experience of our Services.
+
+                                                    For legal and compliance purposes: We may use your information as
+                                                    necessary to comply with legal obligations, such as to respond to
+                                                    subpoenas or other legal requests.
+
+                                                    How We Share Your Information
+                                                    We may share your information with the following third parties:
+
+                                                    Service providers: We may share your information with service
+                                                    providers that perform functions on our behalf, such as payment
+                                                    processors and hosting companies.
+
+                                                    Business partners: We may share your information with business
+                                                    partners for joint marketing or other collaborative purposes.
+
+                                                    Legal and compliance purposes: We may share your information as
+                                                    necessary to comply with legal obligations, such as to respond to
+                                                    subpoenas or other legal requests.
+
+                                                    We will not sell or rent your personal information to third parties
+                                                    for their marketing purposes without your explicit consent.
+
+                                                    Your Choices
+                                                    You have the following choices regarding the collection, use, and
+                                                    sharing of your information:
+
+                                                    Opt-out of marketing communications: You may opt-out of receiving
+                                                    promotional emails from us by following the unsubscribe instructions
+                                                    included in such emails.
+
+                                                    Access and control your information: You may access and update your
+                                                    account information by logging into your account and making the
+                                                    desired changes. You may also request that we delete your account or
+                                                    personal information by contacting us at [Insert Contact Email].
+                                                    Please note that we may retain certain information as required by
+                                                    law or for legitimate business purposes.
+
+                                                    Data Security
+                                                    We have implemented appropriate technical and organizational
+                                                    measures to protect</p>
+                                            </div>
                                         </div>
                                         <div class="res-box text-center mar-top-30">
                                             <button type="button" class="btn v3" id="signUp" onclick="reg()"></i>Sign
